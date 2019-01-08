@@ -2,7 +2,7 @@ const User = require('./user')
 const Wine = require('./wine')
 const Order = require('./orders')
 const db = require('../db')
-const Sequelize = require('Sequelize')
+const Sequelize = require('sequelize')
 
 //join table
 const OrderItem = db.define('order-item', {
