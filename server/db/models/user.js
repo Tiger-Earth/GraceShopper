@@ -16,7 +16,8 @@ const User = db.define('user', {
     allowNull: false
   },
   cart: {
-    type: Sequelize.ARRAY(Sequelize.INT)
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: []
   },
   password: {
     type: Sequelize.STRING,
