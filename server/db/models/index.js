@@ -21,6 +21,5 @@ User.hasMany(Order)
 module.exports = {
   User,
   Wine,
-  CartItem,
   Order
 }
