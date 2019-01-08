@@ -8,9 +8,6 @@ const Order = db.define('order', {
   },
   total: {
     type: Sequelize.DECIMAL
-  },
-  items: {
-    type: Sequelize.ARRAY(Sequelize.INTEGER)
   }
 })
 
