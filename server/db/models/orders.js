@@ -10,7 +10,7 @@ const Order = db.define('order', {
     type: Sequelize.DECIMAL
   },
   items: {
-    type: Sequelize.ARRAY(Sequelize.INT)
+    type: Sequelize.ARRAY(Sequelize.INTEGER)
   }
 })
 
