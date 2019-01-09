@@ -3,9 +3,10 @@ import {connect} from 'react-redux'
 import {getWines} from '../store/allWines'
 import WinesIcon from './winesIcon'
 
-class WinesList extends React.Component {
+export class WinesList extends React.Component {
   componentDidMount() {
-    return this.props.getWines()
+    //the conditional is here to make it possible for the first test spec to run.
+    if (this.props.getWines) return this.props.getWines()
   }
 
   render() {
