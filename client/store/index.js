@@ -3,6 +3,7 @@ import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
+import selectedWine from './wine'
 import allWines from './allWines'
 
 const reducer = combineReducers({user, allWines, selectedWine})
