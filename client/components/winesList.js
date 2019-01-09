@@ -10,7 +10,7 @@ class WinesList extends React.Component {
 
   render() {
     return (
-      <div id="all-wines">
+      <div id="all-wines" className="flex-container">
         {this.props.wines.map(wine => <WinesIcon wine={wine} key={wine.id} />)}
       </div>
     )

@@ -5,7 +5,7 @@ const WinesIcon = props => {
   const {id, name, price, color, imageURL} = props.wine
   console.log(imageURL)
   return (
-    <div id="wine-icon">
+    <div id="wine-icon" className="flex-icon">
       <Link to={`/wines/${id}`}>
         <img src={imageURL} />
         <h2>{name}</h2>
