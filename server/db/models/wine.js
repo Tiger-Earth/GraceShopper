@@ -7,7 +7,7 @@ const Wine = db.define('wine', {
     allowNull: false
   },
   price: {
-    type: Sequelize.DECIMAL
+    type: Sequelize.INTEGER
   },
   color: {
     type: Sequelize.ENUM('red', 'white')
