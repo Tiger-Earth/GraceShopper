@@ -64,11 +64,14 @@ User.encryptPassword = function(plainText, salt) {
  * hooks
  */
 const setSaltAndPassword = user => {
-  if (user.changed('password')) {
-    user.salt = User.generateSalt()
-    user.password = User.encryptPassword(user.password(), user.salt())
+  if (user) {
+    if (user.changed('password')) {
+      user.salt = User.generateSalt()
+      user.password = User.encryptPassword(user.password(), user.salt())
+    }
   }
 }
 
+User.beforeBulkCreate(users => users.forEach(user => setSaltAndPassword(user)))
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
