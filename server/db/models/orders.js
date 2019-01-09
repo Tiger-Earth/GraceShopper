@@ -2,12 +2,12 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Order = db.define('order', {
-  date: {
-    type: Sequelize.DATE,
-    defaultValue: new Date()
-  },
   total: {
     type: Sequelize.DECIMAL
+  },
+  status: {
+    type: Sequelize.ENUM('open', 'closed'),
+    defaultValue: 'open'
   }
 })
 

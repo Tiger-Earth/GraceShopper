@@ -1,8 +1,21 @@
 'use strict'
 
 const db = require('../server/db')
-const {User, Wine} = require('../server/db/models')
+const {User, Wine, Order} = require('../server/db/models')
 
+const userData = [
+  {name: 'Cody', email: 'cody@email.com', password: '123'},
+  {name: 'Murphy', email: 'murphy@email.com', password: '123'}
+]
+
+const orderData = [
+  {
+    status: 'open'
+  },
+  {
+    status: 'closed'
+  }
+]
 const wineData = [
   {
     name: 'Alessandro Viola - Sinfonia Di Grillo 2016',
@@ -66,13 +79,32 @@ async function seed() {
   await db.sync({force: true})
   console.log('db synced!')
 
-  const users = await Promise.all([
+  const [wines, users, orders] = await Promise.all([
     Wine.bulkCreate(wineData, {returning: true}),
-    User.create({name: 'Cody', email: 'cody@email.com', password: '123'}),
-    User.create({name: 'Murphy', email: 'murphy@email.com', password: '123'})
+    User.bulkCreate(userData, {returning: true}),
+    Order.bulkCreate(orderData, {returning: true})
   ])
 
+  await users[0].addOrder(orders[0])
+  await orders[0].addWine(1, {
+    through: {
+      quantity: 4
+    }
+  })
+  await orders[0].addWine(2, {
+    through: {
+      quantity: 2
+    }
+  })
+  await orders[1].addWine(1, {
+    through: {
+      quantity: 6
+    }
+  })
+
   console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${wines.length} wines`)
+  console.log(`seeded ${orders.length} orders`)
   console.log(`seeded successfully`)
 }
 
