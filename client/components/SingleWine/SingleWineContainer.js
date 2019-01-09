@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {fetchWine} from '../../store'
 import SingleWine from './SingleWine'
 
-class SingleWineContainer extends Component {
+export class SingleWineContainer extends Component {
   componentDidMount() {
     const id = this.props.match.params.wineId
     this.props.fetchWine(id)
