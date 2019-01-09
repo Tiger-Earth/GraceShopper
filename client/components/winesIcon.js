@@ -2,7 +2,8 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 
 const WinesIcon = props => {
-  const {id, name, price, color, imageURL} = props
+  const {id, name, price, color, imageURL} = props.wine
+  console.log(imageURL)
   return (
     <div id="wine-icon">
       <Link to={`/wines/${id}`}>

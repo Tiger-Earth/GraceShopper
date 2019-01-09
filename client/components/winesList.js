@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getWines} from '../store'
+import {getWines} from '../store/allWines'
 import WinesIcon from './winesIcon'
 
 class WinesList extends React.Component {
@@ -10,7 +10,9 @@ class WinesList extends React.Component {
 
   render() {
     return (
-      <div id="all-wines">{wines.map(wine => <WineIcon wine={wine} />)}</div>
+      <div id="all-wines">
+        {this.props.wines.map(wine => <WinesIcon wine={wine} key={wine.id} />)}
+      </div>
     )
   }
 }
