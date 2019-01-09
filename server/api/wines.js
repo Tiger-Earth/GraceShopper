@@ -14,9 +14,7 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
   try {
-    console.log(req.params)
     const wine = await Wine.findById(req.params.id)
-    console.log('wine', wine)
     res.json(wine)
   } catch (err) {
     next(err)

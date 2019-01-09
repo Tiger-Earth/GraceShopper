@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import {getWines} from '../store/allWines'
+import {getWines} from '../../store/allWines'
 import WinesIcon from './winesIcon'
 
 export class WinesList extends React.Component {
