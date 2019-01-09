@@ -4,7 +4,7 @@ import history from '../history'
 /**
  * ACTION TYPES
  */
-const SELECT_WINE = 'SELECT_WINE'
+const GET_WINE = 'GET_WINE'
 
 /**
  * INITIAL STATE
@@ -14,8 +14,8 @@ const defaultWine = {}
 /**
  * ACTION CREATORS
  */
-const selectWine = wine => ({
-  type: SELECT_WINE,
+export const getWine = wine => ({
+  type: GET_WINE,
   payload: wine
 })
 
@@ -25,7 +25,7 @@ const selectWine = wine => ({
 export const fetchWine = wineId => async dispatch => {
   try {
     const {data} = await axios.get(`/api/wines/${wineId}`)
-    dispatch(selectWine(data))
+    dispatch(getWine(data))
   } catch (err) {
     console.error(err)
   }
@@ -36,7 +36,7 @@ export const fetchWine = wineId => async dispatch => {
  */
 export default function(state = defaultWine, action) {
   switch (action.type) {
-    case SELECT_WINE:
+    case GET_WINE:
       return action.payload
     default:
       return state
