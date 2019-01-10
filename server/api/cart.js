@@ -24,3 +24,17 @@ router.get('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.post('/:wineId', async (req, res, next) => {
+  try {
+    await req.cart.addWine(req.params.wineId, {
+      through: {
+        quantity: req.body.quantity
+      }
+    })
+    const newCart = await getCart(req)
+    res.status(201).json(newCart)
+  } catch (err) {
+    next(err)
+  }
+})
