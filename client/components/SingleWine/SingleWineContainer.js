@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import NProgress from 'nprogress'
 import {fetchWine, addToCart} from '../../store'
 import SingleWine from './SingleWine'
 
@@ -10,7 +11,9 @@ export class SingleWineContainer extends Component {
   }
 
   clickHandler() {
+    NProgress.start()
     this.props.addToCart(this.props.match.params.wineId)
+    NProgress.done()
   }
   componentDidMount() {
     const id = this.props.match.params.wineId
