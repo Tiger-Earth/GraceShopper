@@ -9,7 +9,7 @@ const GET_WINE = 'GET_WINE'
 /**
  * INITIAL STATE
  */
-const defaultWine = {}
+const selectedWine = {}
 
 /**
  * ACTION CREATORS
@@ -34,7 +34,7 @@ export const fetchWine = wineId => async dispatch => {
 /**
  * REDUCER
  */
-export default function(state = defaultWine, action) {
+export default function(state = selectedWine, action) {
   switch (action.type) {
     case GET_WINE:
       return action.payload
