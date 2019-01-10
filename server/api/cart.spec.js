@@ -90,5 +90,11 @@ describe('Cart routes', () => {
       expect(res.body.wines).to.have.lengthOf(2)
       expect(res.body.wines[1]['order-item'].quantity).to.be.equal(10)
     })
+
+    it('DELETE /api/cart/:wineId', async () => {
+      const res = await request(app)
+        .delete('/api/cart/1')
+        .expect(204)
+    })
   }) // end describe('/api/cart')
 }) // end describe('Cart routes')

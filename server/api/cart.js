@@ -56,3 +56,12 @@ router.put('/:wineId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.delete('/:wineId', async (req, res, next) => {
+  try {
+    await req.cart.removeWine(req.params.wineId)
+    res.sendStatus(204)
+  } catch (err) {
+    next(err)
+  }
+})
