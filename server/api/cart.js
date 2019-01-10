@@ -38,3 +38,21 @@ router.post('/:wineId', async (req, res, next) => {
     next(err)
   }
 })
+
+router.put('/:wineId', async (req, res, next) => {
+  try {
+    await req.cart
+      .getWines({
+        where: {id: req.params.wineId}
+      })
+      .then(([wine]) =>
+        wine['order-item'].updateAttributes({
+          quantity: req.body.quantity
+        })
+      )
+    const newCart = await getCart(req)
+    res.status(202).json(newCart)
+  } catch (err) {
+    next(err)
+  }
+})

@@ -79,5 +79,16 @@ describe('Cart routes', () => {
       expect(res.body.wines).to.have.lengthOf(3)
       expect(res.body.wines[2]['order-item'].quantity).to.be.equal(4)
     })
+
+    it('PUT /api/cart/:wineId', async () => {
+      const res = await request(app)
+        .put('/api/cart/2')
+        .send({quantity: 10})
+        .expect(202)
+
+      expect(res.body.status).to.be.equal('open')
+      expect(res.body.wines).to.have.lengthOf(2)
+      expect(res.body.wines[1]['order-item'].quantity).to.be.equal(10)
+    })
   }) // end describe('/api/cart')
 }) // end describe('Cart routes')
