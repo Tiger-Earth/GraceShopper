@@ -4,11 +4,7 @@ const db = require('../db')
 
 const User = db.define('user', {
   name: {
-    type: Sequelize.STRING,
-    allowNull: false,
-    validate: {
-      notEmpty: true
-    }
+    type: Sequelize.STRING
   },
   email: {
     type: Sequelize.STRING,
@@ -64,11 +60,9 @@ User.encryptPassword = function(plainText, salt) {
  * hooks
  */
 const setSaltAndPassword = user => {
-  if (user) {
-    if (user.changed('password')) {
-      user.salt = User.generateSalt()
-      user.password = User.encryptPassword(user.password(), user.salt())
-    }
+  if (user.changed('password')) {
+    user.salt = User.generateSalt()
+    user.password = User.encryptPassword(user.password(), user.salt())
   }
 }
 

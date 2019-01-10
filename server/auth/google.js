@@ -29,21 +29,23 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
 
   const strategy = new GoogleStrategy(
     googleConfig,
-    (token, refreshToken, profile, done) => {
+    async (token, refreshToken, profile, done) => {
       const googleId = profile.id
       const name = profile.displayName
       const email = profile.emails[0].value
 
-      User.findOrCreate({
-        where: {googleId},
-        defaults: {name, email}
-      })
-        .then(([user]) => done(null, user))
-        .catch(done)
+      try {
+        const user = await User.findOrCreate({
+          where: {googleId},
+          defaults: {name, email}
+        })
+
+        done(null, user[0])
+      } catch (err) {
+        done(err)
+      }
     }
   )
-
-  passport.use(strategy)
 
   router.get('/', passport.authenticate('google', {scope: 'email'}))
 
@@ -54,4 +56,22 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
       failureRedirect: '/login'
     })
   )
+
+  passport.use(strategy)
+
+  passport.serializeUser(function(user, done) {
+    console.log('serializing user.')
+    done(null, user.id)
+  })
+
+  passport.deserializeUser(async function(id, done) {
+    console.log('deserialize user.')
+    try {
+      const user = await User.findById(id)
+      done(null, user)
+    } catch (error) {
+      console.log('did not deserialize.')
+      done(error)
+    }
+  })
 }
