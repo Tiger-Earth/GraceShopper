@@ -80,7 +80,7 @@ describe('Cart routes', () => {
       expect(res.body.wines[2]['order-item'].quantity).to.be.equal(4)
     })
 
-    it('PUT /api/cart/:wineId', async () => {
+    xit('PUT /api/cart/:wineId', async () => {
       const res = await request(app)
         .put('/api/cart/2')
         .send({quantity: 10})
