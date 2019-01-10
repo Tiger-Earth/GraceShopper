@@ -6,7 +6,7 @@ const db = require('../db')
 const app = require('../index')
 const User = db.model('user')
 
-describe('User routes', () => {
+describe('Auth routes', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
@@ -30,5 +30,16 @@ describe('User routes', () => {
       expect(res.body).to.be.an('object')
       expect(res.body.email).to.be.equal(codysEmail)
     })
-  }) // end describe('/api/users')
-}) // end describe('User routes')
+  })
+
+  describe('/auth/signup/', () => {
+    it('allows a user to sign up and assigns a new cart', async () => {
+      const res = await request(app)
+        .post('/auth/signup')
+        .send({email: 'fluffluff@email.com', password: 'oogabooga'})
+        .expect(200)
+
+      expect(res.body).to.be.an('object')
+    })
+  })
+}) // end describe('Auth routes')
