@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {Wine} = require('../db/models')
+const {isAuthenticated} = require('./index')
 module.exports = router
 
 const getCart = async req => {
@@ -11,7 +12,7 @@ const getCart = async req => {
 }
 
 // for all methods
-router.all('/*', async (req, res, next) => {
+router.all('/*', isAuthenticated, async (req, res, next) => {
   req.cart = await getCart(req)
   next()
 })
