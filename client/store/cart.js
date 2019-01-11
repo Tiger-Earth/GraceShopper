@@ -23,11 +23,11 @@ const ADD_TO_CART = 'ADD_TO_CART'
 /**
  * ACTION CREATORS
  */
-export const addToCart = id => {
-  console.log('i am add to cart!')
+export const addToCart = (id, quantity) => {
   return {
     type: ADD_TO_CART,
-    id
+    id,
+    quantity
   }
 }
 
@@ -45,11 +45,12 @@ export default function(state = initialCart, action) {
     // add to cart NOT logged in
     case ADD_TO_CART: {
       const id = action.id
+      const quantity = action.quantity
       const copy = {...state}
       if (copy[id]) {
-        copy[id]++
+        copy[id] += quantity
       } else {
-        copy[id] = 1
+        copy[id] = quantity
       }
       return copy
     }
