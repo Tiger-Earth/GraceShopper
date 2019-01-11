@@ -37,6 +37,14 @@ describe('Cart routes', () => {
         color: 'white'
       }
     ]
+    const getNewCart = user => {
+      return user
+        .getOrders({
+          where: {status: 'open'},
+          include: [Wine]
+        })
+        .then(([order]) => order)
+    }
     beforeEach(async () => {
       const user = await User.create({
         name: 'cody',
@@ -44,16 +52,19 @@ describe('Cart routes', () => {
       })
       const order = await Order.create({})
       await user.addOrder(order)
-      await Promise.all(
-        wines.slice(0, 2).map((wine, idx) =>
-          Wine.create(wine).then(newWine =>
-            order.addWine(newWine, {
-              through: {
-                quantity: idx + 1
-              }
-            })
-          )
-        )
+      await Wine.create(wines[0]).then(newWine =>
+        order.addWine(newWine, {
+          through: {
+            quantity: 1
+          }
+        })
+      )
+      await Wine.create(wines[1]).then(newWine =>
+        order.addWine(newWine, {
+          through: {
+            quantity: 2
+          }
+        })
       )
       await Wine.create(wines[2])
       app.request.user = user
@@ -64,9 +75,10 @@ describe('Cart routes', () => {
         .get('/api/cart')
         .expect(200)
 
-      expect(res.body.status).to.be.equal('open')
-      expect(res.body.wines).to.have.lengthOf(2)
-      expect(res.body.wines[0]['order-item'].quantity).to.be.equal(1)
+      expect(res.body).to.deep.equal({
+        1: 1,
+        2: 2
+      })
     })
 
     it('GET /api/cart/?complete=true', async () => {
@@ -86,27 +98,29 @@ describe('Cart routes', () => {
         .post('/api/cart/3')
         .send({quantity: 4})
         .expect(201)
-
-      expect(res.body.status).to.be.equal('open')
-      expect(res.body.wines).to.have.lengthOf(3)
-      expect(res.body.wines[2]['order-item'].quantity).to.be.equal(4)
+      const newCart = await getNewCart(app.request.user)
+      expect(newCart.wines).to.have.lengthOf(3)
+      expect(newCart.wines[2]['order-item'].quantity).to.be.equal(4)
     })
 
-    xit('PUT /api/cart/:wineId', async () => {
+    it('PUT /api/cart/:wineId', async () => {
       const res = await request(app)
-        .put('/api/cart/2')
+        .put('/api/cart/1')
         .send({quantity: 10})
         .expect(202)
-
-      expect(res.body.status).to.be.equal('open')
-      expect(res.body.wines).to.have.lengthOf(2)
-      expect(res.body.wines[1]['order-item'].quantity).to.be.equal(10)
+      const newCart = await getNewCart(app.request.user)
+      expect(newCart.status).to.be.equal('open')
+      expect(newCart.wines).to.have.lengthOf(2)
+      expect(newCart.wines[0]['order-item'].quantity).to.be.equal(10)
     })
 
     it('DELETE /api/cart/:wineId', async () => {
       const res = await request(app)
         .delete('/api/cart/1')
         .expect(204)
+      const newCart = await getNewCart(app.request.user)
+      expect(newCart.status).to.be.equal('open')
+      expect(newCart.wines).to.have.lengthOf(1)
     })
   }) // end describe('/api/cart')
 }) // end describe('Cart routes')

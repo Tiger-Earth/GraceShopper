@@ -13,12 +13,8 @@ router.get('/', async (req, res, next) => {
   try {
     const complete = req.query.complete
     if (!complete) {
-      /** if undefined or explicitly set to false
-       *  the bare version is just an object of the form
-       * {
-       *   wineId: quantity,
-       * }
-       */
+      // if undefined or explicitly set to false
+      // the bare version is just an object of the form { wineId: quantity }
       res.json(await req.cart.getBareVersion())
     } else {
       // otherwise it includes the cart and eager loads the wines with their quantity
