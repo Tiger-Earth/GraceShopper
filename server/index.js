@@ -54,7 +54,7 @@ const createApp = () => {
   // session middleware with passport
   app.use(
     session({
-      secret: process.env.SESSION_SECRET || 'my best friend is Cody',
+      secret: process.env.SESSION_SECRET,
       store: sessionStore,
       resave: false,
       saveUninitialized: false
@@ -65,7 +65,8 @@ const createApp = () => {
 
   // auth and api routes
   app.use('/auth', require('./auth'))
-  app.use('/api', require('./api'))
+  const {router} = require('./api')
+  app.use('/api', router)
 
   // static file-serving middleware
   app.use(express.static(path.join(__dirname, '..', 'public')))
