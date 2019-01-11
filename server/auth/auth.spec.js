@@ -5,6 +5,7 @@ const request = require('supertest')
 const db = require('../db')
 const app = require('../index')
 const User = db.model('user')
+const Order = require('../db/models/orders')
 
 describe('Auth routes', () => {
   beforeEach(() => {
@@ -39,7 +40,12 @@ describe('Auth routes', () => {
         .send({email: 'fluffluff@email.com', password: 'oogabooga'})
         .expect(200)
 
+      const cart = await Order.findOne({
+        where: {userId: res.body.id}
+      })
+
       expect(res.body).to.be.an('object')
+      expect(cart).to.exist()
     })
   })
 }) // end describe('Auth routes')
