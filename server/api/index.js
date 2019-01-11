@@ -6,7 +6,7 @@ router.use('/orders', require('./orders'))
 router.use('/cart', require('./cart'))
 
 function isAuthenticated(req, res, next) {
-  if (process.env.NODE_ENV === 'test' || (req.user && req.session.user.id)) {
+  if (process.env.NODE_ENV === 'test' || req.user) {
     return next()
   } else {
     res.redirect('/')
