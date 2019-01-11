@@ -26,26 +26,26 @@ describe('cart reducer', () => {
     })
   })
 
-  describe('thunk creators', () => {
-    let store
-    let mockAxios
-    beforeEach(() => {
-      mockAxios = new MockAdapter(axios)
-      store = mockStore(initialState)
-    })
+  //   describe('thunk creators', () => {
+  //     let store
+  //     let mockAxios
+  //     beforeEach(() => {
+  //       mockAxios = new MockAdapter(axios)
+  //       store = mockStore(initialState)
+  //     })
 
-    afterEach(() => {
-      mockAxios.restore()
-      store.clearActions()
-    })
-    describe('pushToCart', () => {
-      it('eventually dispatches the ADD TO CART action', async () => {
-        mockAxios.onGet('/api/wines/1').replyOnce(200, id)
-        await store.dispatch(pushToCart(1))
-        const actions = store.getActions()
-        expect(actions[0].type).to.equal('ADD_TO_CART')
-        expect(actions[0].payload).to.deep.equal(id)
-      })
-    })
-  })
+  //     afterEach(() => {
+  //       mockAxios.restore()
+  //       store.clearActions()
+  //     })
+  //     describe('pushToCart', () => {
+  //       it('eventually dispatches the ADD TO CART action', async () => {
+  //         mockAxios.onGet('/api/wines/1').replyOnce(200, id)
+  //         await store.dispatch(pushToCart(1))
+  //         const actions = store.getActions()
+  //         expect(actions[0].type).to.equal('ADD_TO_CART')
+  //         expect(actions[0].payload).to.deep.equal(id)
+  //       })
+  //     })
+  //   })
 })
