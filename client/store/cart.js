@@ -18,30 +18,47 @@ const ADD_TO_CART = 'ADD_TO_CART'
 
 // TODO add to cart, LOGGING IN!
 
-// const GET_CART = 'GET_CART'
+const GET_CART = 'GET_CART'
 // const CLEAR_CART = 'CLEAR_CART'
 
 /**
  * ACTION CREATORS
  */
-export const addToCart = id => {
-  console.log('i am add to cart!')
+export const addToCart = (id, quantity) => {
   return {
     type: ADD_TO_CART,
-    id
+    id,
+    quantity
+  }
+}
+
+export const getCart = cart => {
+  return {
+    type: GET_CART,
+    cart
   }
 }
 
 /**
  * THUNK CREATORS
  */
-export const pushToCart = wineId => async dispatch => {
+export const pushToCart = (wineId, quantity) => async dispatch => {
   try {
     if (user) {
-      const test = await axios.post(`/api/cart/${wineId}`)
-      console.log('TEST', test.data.wines)
+      await axios.post(`/api/cart/${wineId}`, {quantity})
     }
-    dispatch(addToCart(wineId))
+    dispatch(addToCart(wineId, quantity))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const fetchCart = () => async dispatch => {
+  try {
+    if (user) {
+      const {data} = await axios.get(`/api/cart`)
+      dispatch(getCart(data))
+    }
   } catch (err) {
     console.error(err)
   }
@@ -53,13 +70,17 @@ export const pushToCart = wineId => async dispatch => {
 export default function(state = initialCart, action) {
   switch (action.type) {
     // add to cart NOT logged in
+    case GET_CART: {
+      return action.cart
+    }
     case ADD_TO_CART: {
       const id = action.id
+      const quantity = +action.quantity
       const copy = {...state}
       if (copy[id]) {
-        copy[id]++
+        copy[id] += quantity
       } else {
-        copy[id] = 1
+        copy[id] = quantity
       }
       return copy
     }

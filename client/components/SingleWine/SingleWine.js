@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import SingleWineQuantityForm from './SingleWineQuantityForm'
 
 const SingleWine = props => {
   const wine = props.wine
@@ -14,9 +15,9 @@ const SingleWine = props => {
       </p>
       <img src={imageURL} />
       <p>Color: {color} </p>
-      <button type="button" onClick={props.clickHandler}>
-        Add to Cart
-      </button>
+      <SingleWineQuantityForm
+        getQuantity={quantity => props.clickHandler(quantity)}
+      />
     </div>
   )
 }

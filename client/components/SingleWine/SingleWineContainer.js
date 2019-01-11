@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import NProgress from 'nprogress'
-import {fetchWine, addToCart} from '../../store'
+import {fetchWine, pushToCart} from '../../store'
 import SingleWine from './SingleWine'
 
 export class SingleWineContainer extends Component {
@@ -10,9 +10,9 @@ export class SingleWineContainer extends Component {
     this.clickHandler = this.clickHandler.bind(this)
   }
 
-  clickHandler() {
+  clickHandler(quantity) {
     NProgress.start()
-    this.props.addToCart(this.props.match.params.wineId)
+    this.props.pushToCart(this.props.match.params.wineId, quantity)
     NProgress.done()
   }
   componentDidMount() {
@@ -32,7 +32,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchWine: id => dispatch(fetchWine(id)),
-  pushToCart: id => dispatch(pushToCart(id))
+  pushToCart: (id, quantity) => dispatch(pushToCart(id, quantity))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleWineContainer)
