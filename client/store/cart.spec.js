@@ -10,23 +10,20 @@ const initialState = {}
 const store = mockStore(initialState)
 import reducer from './index'
 import {SELECT_WINE} from './index' // action types
-import {getWine, fetchWine} from './index' // action/thunk creators
+import {addToCart, pushToCart} from './index' // action/thunk creators
 
-describe('selectedWine reducer', () => {
-  const wine = {
-    name: 'Alessandro Viola - Sinfonia Di Grillo 2016',
-    price: 38,
-    color: 'red',
-    imageURL:
-      'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/alessandro-viola-sinfonia-di-grillo_1.jpg&w=155&h=184'
-  }
+describe('cart reducer', () => {
+  const id = 15
+  const quantity = 3
 
   describe('action creators', () => {
-    describe('getWine', () => {
+    describe('addToCart', () => {
       it('returns properly formatted action', () => {
-        expect(getWine(wine)).to.be.deep.equal({
-          type: 'GET_WINE',
-          payload: wine
+        console.log(addToCart(id, quantity))
+        expect(addToCart(id, quantity)).to.be.deep.equal({
+          type: 'ADD_TO_CART',
+          id,
+          quantity: 3
         })
       })
     })
@@ -41,16 +38,22 @@ describe('selectedWine reducer', () => {
     })
 
     afterEach(() => {
-      mockAxios.restore()
+      mockAxios.reset()
       store.clearActions()
     })
-    describe('fetchWine', () => {
-      it('eventually dispatched the GET WINE action', async () => {
-        mockAxios.onGet('/api/wines/1').replyOnce(200, wine)
-        await store.dispatch(fetchWine(1))
+
+    after(() => {
+      mockAxios.restore()
+    })
+
+    describe('pushToCart', () => {
+      it('eventually dispatches the ADD TO CART action', async () => {
+        mockAxios.onPost('/api/cart/1', {quantity}).replyOnce(201)
+        await store.dispatch(pushToCart(1, quantity))
         const actions = store.getActions()
-        expect(actions[0].type).to.equal('GET_WINE')
-        expect(actions[0].payload).to.deep.equal(wine)
+        expect(actions[0].type).to.equal('ADD_TO_CART')
+        expect(actions[0].id).to.equal(1)
+        expect(actions[0].quantity).to.equal(quantity)
       })
     })
   })

@@ -30,7 +30,7 @@ router.post('/:wineId', async (req, res, next) => {
     const hasWine = await req.cart.hasWine(req.params.wineId)
     if (hasWine) {
       const wineToUpdate = await req.cart.getWineById(req.params.wineId)
-      wineToUpdate['order-item'].quantity = wineToUpdate.quantity + 1
+      wineToUpdate['order-item'].quantity++
       await wineToUpdate['order-item'].save()
     } else {
       await req.cart.addWine(req.params.wineId, {

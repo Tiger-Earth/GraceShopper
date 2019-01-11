@@ -1,4 +1,5 @@
 import axios from 'axios'
+import user from './user'
 import history from '../history'
 
 // Rhianna and McRae worked on this for 15000 hours with Jan
@@ -34,8 +35,16 @@ export const addToCart = (id, quantity) => {
 /**
  * THUNK CREATORS
  */
-
-// TK
+export const pushToCart = (wineId, quantity) => async dispatch => {
+  try {
+    if (user) {
+      await axios.post(`/api/cart/${wineId}`, {quantity})
+    }
+    dispatch(addToCart(wineId, quantity))
+  } catch (err) {
+    console.error(err)
+  }
+}
 
 /**
  * REDUCER
