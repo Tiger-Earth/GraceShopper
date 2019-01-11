@@ -6,14 +6,20 @@ import history from './history'
 import store from './store'
 import App from './app'
 
+import {Elements, StripeProvider} from 'react-stripe-elements'
+
 // establishes socket connection
 import './socket'
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
+    <StripeProvider apiKey="pk_test_1d7rhiLcfWHAoIbxcKI7dGRQ">
+      <Router history={history}>
+        <Elements>
+          <App />
+        </Elements>
+      </Router>
+    </StripeProvider>
   </Provider>,
   document.getElementById('app')
 )
