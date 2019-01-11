@@ -45,7 +45,7 @@ describe('Auth routes', () => {
       })
 
       expect(res.body).to.be.an('object')
-      expect(cart).to.exist()
+      expect(cart.status).to.be.equal('open')
     })
   })
 }) // end describe('Auth routes')
