@@ -1,9 +1,10 @@
 const router = require('express').Router()
 const {Wine, Order} = require('../db/models')
+const {isAuthenticated} = require('./index')
 module.exports = router
 
 // for all methods in this route, attach the appropriate cart to req.cart
-router.all('/*', async (req, res, next) => {
+router.all('/*', isAuthenticated, async (req, res, next) => {
   req.cart = await req.user.getCart()
   next()
 })
