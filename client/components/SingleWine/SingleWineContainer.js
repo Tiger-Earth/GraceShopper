@@ -12,17 +12,14 @@ export class SingleWineContainer extends Component {
 
   clickHandler(quantity) {
     NProgress.start()
-    this.props.addToCart(this.props.match.params.wineId, quantity)
+    this.props.pushToCart(this.props.match.params.wineId, quantity)
     NProgress.done()
   }
   componentDidMount() {
     const id = this.props.match.params.wineId
-
     this.props.fetchWine(id)
-    console.log('the wine has been fetched!!!')
   }
   render() {
-    console.log(this.props)
     return (
       <SingleWine wine={this.props.wine} clickHandler={this.clickHandler} />
     )
@@ -35,7 +32,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   fetchWine: id => dispatch(fetchWine(id)),
-  addToCart: (id, quantity) => dispatch(addToCart(id, quantity))
+  pushToCart: (id, quantity) => dispatch(pushToCart(id, quantity))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleWineContainer)

@@ -5,8 +5,9 @@ const request = require('supertest')
 const db = require('../db')
 const app = require('../index')
 const User = db.model('user')
+const Order = require('../db/models/orders')
 
-describe('User routes', () => {
+describe('Auth routes', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
@@ -30,5 +31,21 @@ describe('User routes', () => {
       expect(res.body).to.be.an('object')
       expect(res.body.email).to.be.equal(codysEmail)
     })
-  }) // end describe('/api/users')
-}) // end describe('User routes')
+  })
+
+  describe('/auth/signup/', () => {
+    it('allows a user to sign up and assigns a new cart', async () => {
+      const res = await request(app)
+        .post('/auth/signup')
+        .send({email: 'fluffluff@email.com', password: 'oogabooga'})
+        .expect(200)
+
+      const cart = await Order.findOne({
+        where: {userId: res.body.id}
+      })
+
+      expect(res.body).to.be.an('object')
+      expect(cart.status).to.be.equal('open')
+    })
+  })
+}) // end describe('Auth routes')
