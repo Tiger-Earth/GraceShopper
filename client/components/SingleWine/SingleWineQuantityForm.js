@@ -19,12 +19,15 @@ export default class SingleWineQuantityForm extends Component {
   handleSubmit(event) {
     event.preventDefault()
     this.props.getQuantity(this.state.quantity)
+    this.setState({
+      quantity: 1
+    })
   }
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <select onChange={this.handleChange}>
+        <select onChange={this.handleChange} value={this.state.quantity}>
           {Array.from({length: 10}, (v, k) => k + 1).map(val => (
             <option key={val} value={val}>
               {val}
