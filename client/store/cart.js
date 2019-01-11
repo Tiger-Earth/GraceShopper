@@ -18,7 +18,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 
 // TODO add to cart, LOGGING IN!
 
-// const GET_CART = 'GET_CART'
+const GET_CART = 'GET_CART'
 // const CLEAR_CART = 'CLEAR_CART'
 
 /**
@@ -29,6 +29,13 @@ export const addToCart = (id, quantity) => {
     type: ADD_TO_CART,
     id,
     quantity
+  }
+}
+
+export const getCart = cart => {
+  return {
+    type: GET_CART,
+    cart
   }
 }
 
@@ -46,12 +53,26 @@ export const pushToCart = (wineId, quantity) => async dispatch => {
   }
 }
 
+export const fetchCart = () => async dispatch => {
+  try {
+    if (user) {
+      const {data} = await axios.get(`/api/cart`)
+      dispatch(getCart(data))
+    }
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 /**
  * REDUCER
  */
 export default function(state = initialCart, action) {
   switch (action.type) {
     // add to cart NOT logged in
+    case GET_CART: {
+      return action.cart
+    }
     case ADD_TO_CART: {
       const id = action.id
       const quantity = +action.quantity
