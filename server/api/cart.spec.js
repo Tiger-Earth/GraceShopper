@@ -69,6 +69,18 @@ describe('Cart routes', () => {
       expect(res.body.wines[0]['order-item'].quantity).to.be.equal(1)
     })
 
+    it('GET /api/cart/?complete=true', async () => {
+      const res = await request(app)
+        .get('/api/cart/?complete=true')
+        .expect(200)
+
+      expect(res.body.id).to.equal(1)
+      expect(res.body.wines[1].name).to.equal(
+        'Cantina Furlani - Sur Lie Rosato NV'
+      )
+      expect(res.body.wines[1]['order-item'].quantity).to.equal(2)
+    })
+
     it('POST /api/cart/:wineId', async () => {
       const res = await request(app)
         .post('/api/cart/3')

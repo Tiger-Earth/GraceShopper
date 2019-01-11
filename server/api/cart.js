@@ -1,25 +1,29 @@
 const router = require('express').Router()
-const {Wine} = require('../db/models')
+const {Wine, Order} = require('../db/models')
 module.exports = router
 
-const getCart = async req => {
-  const [order] = await req.user.getOrders({
-    where: {status: 'open'},
-    include: [Wine]
-  })
-  return order
-}
-
-// for all methods
+// for all methods in this route, attach the appropriate cart to req.cart
 router.all('/*', async (req, res, next) => {
-  req.cart = await getCart(req)
+  req.cart = await req.user.getCart()
   next()
 })
 
 // get all items in cart
 router.get('/', async (req, res, next) => {
   try {
-    res.json(req.cart)
+    const complete = req.query.complete
+    if (!complete) {
+      /** if undefined or explicitly set to false
+       *  the bare version is just an object of the form
+       * {
+       *   wineId: quantity,
+       * }
+       */
+      res.json(await req.cart.getBareVersion())
+    } else {
+      // otherwise it includes the cart and eager loads the wines with their quantity
+      res.json(await req.cart.getCompleteVersion())
+    }
   } catch (err) {
     next(err)
   }
@@ -27,13 +31,19 @@ router.get('/', async (req, res, next) => {
 
 router.post('/:wineId', async (req, res, next) => {
   try {
-    await req.cart.addWine(req.params.wineId, {
-      through: {
-        quantity: req.body.quantity
-      }
-    })
-    const newCart = await getCart(req)
-    res.status(201).json(newCart)
+    const hasWine = await req.cart.hasWine(req.params.wineId)
+    if (hasWine) {
+      const wineToUpdate = await req.cart.getWineById(req.params.wineId)
+      wineToUpdate['order-item'].quantity = wineToUpdate.quantity + 1
+      await wineToUpdate['order-item'].save()
+    } else {
+      await req.cart.addWine(req.params.wineId, {
+        through: {
+          quantity: req.body.quantity
+        }
+      })
+    }
+    res.sendStatus(201)
   } catch (err) {
     next(err)
   }
@@ -41,17 +51,10 @@ router.post('/:wineId', async (req, res, next) => {
 
 router.put('/:wineId', async (req, res, next) => {
   try {
-    await req.cart
-      .getWines({
-        where: {id: req.params.wineId}
-      })
-      .then(([wine]) =>
-        wine['order-item'].updateAttributes({
-          quantity: req.body.quantity
-        })
-      )
-    const newCart = await getCart(req)
-    res.status(202).json(newCart)
+    const wineToUpdate = await req.cart.getWineById(req.params.wineId)
+    wineToUpdate['order-item'].quantity = req.body.quantity
+    await wineToUpdate['order-item'].save()
+    res.sendStatus(202)
   } catch (err) {
     next(err)
   }
