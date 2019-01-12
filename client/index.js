@@ -5,21 +5,39 @@ import {Router} from 'react-router-dom'
 import history from './history'
 import store from './store'
 import App from './app'
+import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles'
+import {grey, blueGrey} from '@material-ui/core/colors'
 
 import {Elements, StripeProvider} from 'react-stripe-elements'
 
 // establishes socket connection
+
 import './socket'
 
+const theme = createMuiTheme({
+  palette: {
+    primary: grey,
+    secondary: blueGrey
+  },
+  typography: {
+    useNextVariants: true
+  },
+  status: {
+    danger: 'orange'
+  }
+})
+
 ReactDOM.render(
-  <Provider store={store}>
-    <StripeProvider apiKey="pk_test_1d7rhiLcfWHAoIbxcKI7dGRQ">
-      <Router history={history}>
-        <Elements>
-          <App />
-        </Elements>
-      </Router>
-    </StripeProvider>
-  </Provider>,
+  <MuiThemeProvider theme={theme}>
+    <Provider store={store}>
+      <StripeProvider apiKey="pk_test_1d7rhiLcfWHAoIbxcKI7dGRQ">
+        <Router history={history}>
+          <Elements>
+            <App />
+          </Elements>
+        </Router>
+      </StripeProvider>
+    </Provider>
+  </MuiThemeProvider>,
   document.getElementById('app')
 )

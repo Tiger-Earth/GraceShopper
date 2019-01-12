@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import {Fab} from '@material-ui/core'
+import NativeSelect from '@material-ui/core/NativeSelect'
 
 export default class SingleWineQuantityForm extends Component {
   constructor() {
@@ -27,14 +29,20 @@ export default class SingleWineQuantityForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
-        <select onChange={this.handleChange} value={this.state.quantity}>
+        <NativeSelect
+          variant="outlined"
+          onChange={this.handleChange}
+          value={this.state.quantity}
+        >
           {Array.from({length: 10}, (v, k) => k + 1).map(val => (
             <option key={val} value={val}>
               {val}
             </option>
           ))}
-        </select>
-        <button type="submit">Add to Cart</button>
+        </NativeSelect>
+        <Fab type="submit" variant="extended" size="small" color="secondary">
+          Add to Cart
+        </Fab>
       </form>
     )
   }
