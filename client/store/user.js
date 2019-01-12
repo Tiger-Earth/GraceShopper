@@ -42,15 +42,15 @@ export const auth = (email, password, method) => async (dispatch, getState) => {
 
   try {
     dispatch(getUser(res.data))
-    // update database with current bare cart
-    await Promise.all([
+    // update database with current cart
+    await Promise.all(
       Object.keys(getState().cart).map(wineId =>
         axios.post(`/api/cart/${wineId}`, {
-          quantity: +getState().cart.bareCart[wineId]
+          quantity: +getState().cart[wineId]
         })
       )
-    ])
-    // get cart from database and update bare cart
+    )
+    // get cart from database and update store's cart
     dispatch(fetchCart())
     history.push('/home')
   } catch (dispatchOrHistoryErr) {
