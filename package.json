@@ -21,7 +21,7 @@
     "start": "node server",
     "start-dev": "NODE_ENV='development' npm run build-client-watch & NODE_ENV='development' npm run start-server",
     "start-server": "nodemon server -e html,js,scss --ignore public --ignore client",
-    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register"
+    "test": "NODE_ENV='test' mocha \"./server/**/*.spec.js\" \"./client/**/*.spec.js\" \"./script/**/*.spec.js\" --require @babel/polyfill --require @babel/register --require mock-local-storage"
   },
   "lint-staged": {
     "*.{js,jsx}": [
@@ -46,6 +46,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.1",
     "history": "^4.6.3",
+    "mock-local-storage": "^1.1.8",
     "morgan": "^1.9.1",
     "nprogress": "^0.2.0",
     "passport": "^0.3.2",
