@@ -4,6 +4,7 @@ import {withRouter, Route, Switch} from 'react-router-dom'
 import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, WinesList, SingleWine} from './components'
 import {me} from './store'
+import CheckoutForm from './components/Stripe/CheckoutForm'
 
 /**
  * COMPONENT
@@ -20,6 +21,7 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route exact path="/" component={WinesList} />
         <Route exact path="/wines/:wineId" component={SingleWine} />
+        <Route exact path="/checkout" component={CheckoutForm} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {isLoggedIn && (
