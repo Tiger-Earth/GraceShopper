@@ -7,7 +7,11 @@ import history from '../history'
 /**
  * INITIAL STATE
  */
-const initialCart = {}
+
+// retrieve initial state form localStorage or supply empty object if nothing stored in localStorage
+const initialCart = localStorage.getItem('reduxCart')
+  ? JSON.parse(localStorage.getItem('reduxCart'))
+  : {}
 
 /**
  * ACTION TYPES
