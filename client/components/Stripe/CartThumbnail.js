@@ -5,7 +5,7 @@ class CartThumbnail extends Component {
     super(props)
   }
   render() {
-    return <p>here is the thumbnail</p>
+    return <p>cart thumbnail component</p>
   }
 }
 

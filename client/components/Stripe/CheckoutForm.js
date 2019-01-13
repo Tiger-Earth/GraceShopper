@@ -189,9 +189,10 @@ class Checkout extends Component {
           onClick={this.handleClick}
         />{' '}
         <label>I have a separate billing address</label>
+        <br />
         {this.state.differentBillingAddress && (
           <div>
-            <p>billing address</p>
+            <p>billing address:</p>
             <AddressForm hideName={true} />
           </div>
         )}
