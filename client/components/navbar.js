@@ -5,11 +5,12 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import {Typography, AppBar} from '@material-ui/core/'
+import Grid from '@material-ui/core/Grid'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
   // <AppBar color="primary">
-  <div>
-    <Typography color="inherit" variant="h2">
+  <Grid container direction="row" justify="space-between" alignItems="center">
+    <Typography color="inherit" variant="h4">
       Tiger Shopper
     </Typography>
     <nav>
@@ -29,7 +30,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
         </div>
       )}
     </nav>
-  </div>
+  </Grid>
   // </AppBar>
 )
 
