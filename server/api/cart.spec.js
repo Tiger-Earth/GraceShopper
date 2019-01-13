@@ -37,14 +37,6 @@ describe('Cart routes', () => {
         color: 'white'
       }
     ]
-    const getNewCart = user => {
-      return user
-        .getOrders({
-          where: {status: 'open'},
-          include: [Wine]
-        })
-        .then(([order]) => order)
-    }
     beforeEach(async () => {
       const user = await User.create({
         name: 'cody',
@@ -98,7 +90,7 @@ describe('Cart routes', () => {
         .post('/api/cart/3')
         .send({quantity: 4})
         .expect(201)
-      const newCart = await getNewCart(app.request.user)
+      const newCart = await app.request.user.getCart()
       expect(newCart.wines).to.have.lengthOf(3)
       expect(newCart.wines[2]['order-item'].quantity).to.be.equal(4)
     })
@@ -108,7 +100,7 @@ describe('Cart routes', () => {
         .put('/api/cart/1')
         .send({quantity: 10})
         .expect(202)
-      const newCart = await getNewCart(app.request.user)
+      const newCart = await app.request.user.getCart()
       expect(newCart.status).to.be.equal('open')
       expect(newCart.wines).to.have.lengthOf(2)
       expect(newCart.wines[0]['order-item'].quantity).to.be.equal(10)
@@ -118,7 +110,7 @@ describe('Cart routes', () => {
       const res = await request(app)
         .delete('/api/cart/1')
         .expect(204)
-      const newCart = await getNewCart(app.request.user)
+      const newCart = await app.request.user.getCart()
       expect(newCart.status).to.be.equal('open')
       expect(newCart.wines).to.have.lengthOf(1)
     })

@@ -42,12 +42,12 @@ describe('allWines reducer', () => {
       store.clearActions()
     })
     describe('getWines', () => {
-      xit('(needs fix) eventually dispatched the GET WINE action', async () => {
+      it('(needs fix) eventually dispatched the GET WINE action', async () => {
         mockAxios.onGet('/api/wines').replyOnce(200, wines)
-        await store.dispatch(gotWines)
+        await store.dispatch(getWines())
         const actions = store.getActions()
         expect(actions[0].type).to.equal('GET_WINES')
-        expect(actions[0].payload).to.deep.equal(wines)
+        expect(actions[0].wines).to.deep.equal(wines)
       })
     })
   })
