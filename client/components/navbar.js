@@ -4,10 +4,13 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import {Typography, AppBar} from '@material-ui/core/'
 
 const Navbar = ({handleClick, isLoggedIn}) => (
-  <div>
-    <h1>Tiger Shopper</h1>
+  <AppBar color="primary">
+    <Typography color="inherit" variant="h2">
+      Tiger Shopper
+    </Typography>
     <nav>
       {isLoggedIn ? (
         <div>
@@ -26,7 +29,7 @@ const Navbar = ({handleClick, isLoggedIn}) => (
       )}
     </nav>
     <hr />
-  </div>
+  </AppBar>
 )
 
 /**

@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
-import {Fab} from '@material-ui/core'
+import {Button} from '@material-ui/core'
 import NativeSelect from '@material-ui/core/NativeSelect'
+import Typography from '@material-ui/core/Typography'
 
 export default class SingleWineQuantityForm extends Component {
   constructor() {
@@ -40,9 +41,16 @@ export default class SingleWineQuantityForm extends Component {
             </option>
           ))}
         </NativeSelect>
-        <Fab type="submit" variant="extended" size="small" color="secondary">
-          Add to Cart
-        </Fab>
+        <Button
+          type="submit"
+          variant="contained"
+          size="small"
+          color="secondary"
+        >
+          <Typography color="inherit" variant="button">
+            Add to Cart
+          </Typography>
+        </Button>
       </form>
     )
   }
