@@ -9,7 +9,7 @@ const GET_WINES = 'GET_WINES'
 /**
  * ACTION CREATORS
  */
-const gotWines = wines => ({type: GET_WINES, wines})
+export const gotWines = wines => ({type: GET_WINES, wines})
 
 /**
  * THUNK CREATORS
