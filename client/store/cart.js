@@ -1,6 +1,5 @@
 import axios from 'axios'
 import user from './user'
-import history from '../history'
 
 // Rhianna and McRae worked on this for 15000 hours with Jan
 
@@ -8,7 +7,8 @@ import history from '../history'
  * INITIAL STATE
  */
 
-// retrieve initial state form localStorage or supply empty object if nothing stored in localStorage
+// retrieve initial state from localStorage or supply empty object if nothing stored in localStorage
+
 const initialCart = localStorage.getItem('reduxCart')
   ? JSON.parse(localStorage.getItem('reduxCart'))
   : {}
