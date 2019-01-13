@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import CartThumbnail from './CartThumbnail'
+import AddressForm from './AddressForm'
 import {
   CardNumberElement,
   CardExpiryElement,
@@ -13,7 +15,7 @@ import {
 const handleBlur = () => {
   console.log('[blur]')
 }
-const handleChange = event => {
+const handleChange = () => {
   console.log('[change]')
 }
 const handleClick = () => {
@@ -160,27 +162,17 @@ class _PaymentRequestForm extends React.Component {
 const PaymentRequestForm = injectStripe(_PaymentRequestForm)
 
 class Checkout extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
-      elementFontSize: window.innerWidth < 450 ? '14px' : '18px'
-      // firstName: '',
-      // lastName: '',
-      // address: '',
-      // addressTwo: '',
-      // city: '',
-      // state: '',
-      // zip: ''
+      differentBillingAddress: false
     }
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 450 && this.state.elementFontSize !== '14px') {
-        this.setState({elementFontSize: '14px'})
-      } else if (
-        window.innerWidth >= 450 &&
-        this.state.elementFontSize !== '18px'
-      ) {
-        this.setState({elementFontSize: '18px'})
-      }
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleClick() {
+    this.setState({
+      differentBillingAddress: true
     })
   }
 
@@ -189,78 +181,20 @@ class Checkout extends Component {
     return (
       <div className="Checkout">
         <h1>Checkout</h1>
-        <form id="name-address-form">
+        <CartThumbnail />
+        <AddressForm hideName={false} />
+        <input
+          type="checkbox"
+          name="separateaddress"
+          onClick={this.handleClick}
+        />{' '}
+        <label>I have a separate billing address</label>
+        {this.state.differentBillingAddress && (
           <div>
-            <label>First name</label>
-            <br />
-            <input
-              name="first-name"
-              type="text"
-              onChange={handleChange}
-              value={this.state.firstName}
-            />
+            <p>billing address</p>
+            <AddressForm hideName={true} />
           </div>
-          <div>
-            <label>Last name</label>
-            <br />
-            <input
-              name="last-name"
-              type="text"
-              onChange={handleChange}
-              value={this.state.lastName}
-            />
-          </div>
-          <div>
-            <label>Address</label>
-            <br />
-            <input
-              name="address-1"
-              type="text"
-              onChange={this.handleChange}
-              value={this.state.address}
-            />
-          </div>
-          <div>
-            <label>Address 2 (optional)</label>
-            <br />
-            <input
-              name="address-2"
-              type="text"
-              onChange={this.handleChange}
-              value={this.state.addressTwo}
-            />
-          </div>
-          <div>
-            <label>City</label>
-            <br />
-            <input
-              name="city"
-              type="text"
-              onChange={this.handleChange}
-              value={this.state.city}
-            />
-          </div>
-          <div>
-            <label>State</label>
-            <br />
-            <input
-              name="state"
-              type="text"
-              onChange={this.handleChange}
-              value={this.state.state}
-            />
-            <div>
-              <label>Zip</label>
-              <br />
-              <input
-                name="zip"
-                type="text"
-                onChange={this.handleChange}
-                value={this.state.zip}
-              />
-            </div>
-          </div>
-        </form>
+        )}
         <Elements>
           <SplitForm fontSize={elementFontSize} />
         </Elements>
