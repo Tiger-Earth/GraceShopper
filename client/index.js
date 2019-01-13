@@ -6,7 +6,7 @@ import history from './history'
 import store from './store'
 import App from './app'
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles'
-import {indigo, blue} from '@material-ui/core/colors'
+import {white, grey} from '@material-ui/core/colors'
 
 import {Elements, StripeProvider} from 'react-stripe-elements'
 
@@ -16,8 +16,8 @@ import './socket'
 
 const theme = createMuiTheme({
   palette: {
-    primary: indigo,
-    secondary: blue
+    primary: white,
+    secondary: grey
   },
   typography: {
     useNextVariants: true
