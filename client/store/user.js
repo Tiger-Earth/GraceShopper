@@ -60,7 +60,6 @@ export const auth = (email, password, method) => async (dispatch, getState) => {
 }
 
 export const logout = () => async dispatch => {
-  console.log(clearCart)
   try {
     await axios.post('/auth/logout')
     dispatch(removeUser())
