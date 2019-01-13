@@ -23,7 +23,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 // TODO add to cart, LOGGING IN!
 
 const GET_CART = 'GET_CART'
-// const CLEAR_CART = 'CLEAR_CART'
+const CLEAR_CART = 'CLEAR_CART'
 
 /**
  * ACTION CREATORS
@@ -40,6 +40,12 @@ export const getCart = cart => {
   return {
     type: GET_CART,
     cart
+  }
+}
+
+export const clearCart = () => {
+  return {
+    type: CLEAR_CART
   }
 }
 
@@ -87,6 +93,9 @@ export default function(state = initialCart, action) {
         copy[id] = quantity
       }
       return copy
+    }
+    case CLEAR_CART: {
+      return {}
     }
     default:
       return state
