@@ -1,29 +1,48 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
 import {CardElement, injectStripe} from 'react-stripe-elements'
 import AddressForm from './AddressForm'
+import {fetchCart} from '../../store/cart'
+import {fetchWine} from '../../store/wine'
+import axios from 'axios'
 
 class CheckoutForm extends Component {
   constructor(props) {
     super(props)
-    this.state = {complete: false, billing: false}
+    this.state = {complete: false, billing: false, total: ''}
     this.submit = this.submit.bind(this)
+  }
+
+  async componentDidMount() {
+    const wines = await Promise.all(
+      Object.keys(this.props.cart).map(id => this.props.fetchWine(id))
+    )
+    const prices = wines.map(
+      (wine, idx) => wine.price * this.props.cart[wine.id]
+    )
+    const total = prices.reduce((tot, x) => tot + x, 0)
+    this.setState({total})
   }
 
   async submit(ev) {
     let {token} = await this.props.stripe.createToken({name: 'Name'})
-    let response = await fetch('/charge', {
-      method: 'POST',
-      headers: {'Content-Type': 'text/plain'},
-      body: token.id
+    let response = await axios.post('/charge', {
+      tokenId: token.id,
+      amount: this.state.total,
+      order: this.props.cart
     })
-
-    if (response.ok) this.setState({complete: true})
+    //clearCart
+    //close the order with
+    console.log('response', response)
+    if (response.status === 200) this.setState({complete: true})
+    //createNew
   }
 
   render() {
     if (this.state.complete) return <h1>Purchase Complete</h1>
     return (
       <div className="checkout">
+        <h1>your total: {this.state.total}</h1>
         <AddressForm hideName={false} />
         <input
           type="checkbox"
@@ -48,106 +67,19 @@ class CheckoutForm extends Component {
   }
 }
 
-export default injectStripe(CheckoutForm)
+const mapState = state => {
+  return {
+    cart: state.cart
+  }
+}
 
-// import React, {Component} from 'react'
-// import AddressForm from './AddressForm'
-// import {
-//   CardNumberElement,
-//   CardExpiryElement,
-//   CardCVCElement,
-//   PostalCodeElement,
-//   Elements,
-//   injectStripe
-// } from 'react-stripe-elements'
+const mapDispatch = dispatch => {
+  return {
+    fetchCart: () => dispatch(fetchCart()),
+    fetchWine: id => dispatch(fetchWine(id))
+  }
+}
 
-// //---CONSTITUENT ELEMENTS---
-// //_SplitForm and _PaymentRequestForm are "injected" with stripe to
-// //become fully functional elements in Checkout component below
+const injectedCheckout = injectStripe(CheckoutForm)
 
-// //---ACTUAL CHECKOUT COMPONENT---
-
-// class _Checkout extends Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       differentBillingAddress: false,
-//       complete: false
-//     }
-//     this.submit = this.submit.bind(this)
-//   }
-
-//   submit = async function(ev) {
-//     ev.preventDefault()
-//     try {
-//       console.log('IN PROPS STRIPE')
-//       const {token} = await this.props.stripe.createToken()
-//       const response = await fetch('/charge', {
-//         method: 'POST',
-//         headers: {'Content-Type': 'text/plain'},
-//         body: token.id
-//       })
-//       if (response.ok) this.setState({complete: true})
-//     } catch (err) {
-//       console.log(err)
-//     }
-//   }
-
-//   handleClick() {
-//     this.setState({
-//       differentBillingAddress: true
-//     })
-//   }
-
-//   render() {
-//     const submit = this.submit
-//     return this.state.complete ? (
-//       <h3>thank you for your order :)</h3>
-//     ) : (
-//       <div className="Checkout">
-//         <h1>Checkout</h1>
-//         <AddressForm hideName={false} />
-//         <input
-//           type="checkbox"
-//           name="separateaddress"
-//           onClick={this.handleClick}
-//         />{' '}
-//         <label>I have a separate billing address</label>
-//         <br />
-//         {this.state.differentBillingAddress && (
-//           <div>
-//             <p>billing address:</p>
-//             <AddressForm billing={true} />
-//           </div>
-//         )}
-//         <Elements>
-//         <form onSubmit={submit}>
-//       <label>
-//         Card number
-//         <CardNumberElement
-//         />
-//       </label>
-//       <label>
-//         Expiration date
-//         <CardExpiryElement
-//         />
-//       </label>
-//       <label>
-//         CVC
-//         <CardCVCElement
-//         />
-//       </label>
-//       <label>
-//         Postal code
-//         <PostalCodeElement
-//         />
-//       </label>
-//       <button type="submit">Send</button>
-//     </form>
-//         </Elements>
-//       </div>
-//     )
-//   }
-// }
-
-// export default injectStripe(_Checkout)
+export default connect(mapState, mapDispatch)(injectedCheckout)
