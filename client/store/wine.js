@@ -23,9 +23,12 @@ export const getWine = wine => ({
  * THUNK CREATORS
  */
 export const fetchWine = wineId => async dispatch => {
+  console.log('winethunk', wineId)
   try {
     const {data} = await axios.get(`/api/wines/${wineId}`)
+    console.log('DATA', data)
     dispatch(getWine(data))
+    return data
   } catch (err) {
     console.error(err)
   }
