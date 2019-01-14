@@ -4,10 +4,15 @@ body {
 
 a {
   text-decoration: none;
+  color: black;
 }
 
 label {
   display: block;
+}
+
+#title {
+  margin-left: 2vw;
 }
 
 nav {
@@ -26,7 +31,7 @@ form div {
 }
 
 #all-wines {
-  padding-top: 80px;
+  padding-top: 90px;
   margin-left: 10px;
   margin-right: 10px;
 }
@@ -107,4 +112,16 @@ img {
   background: #059c9c;
   text-align: center;
   min-width: 1em;
+}
+
+#login {
+  display: flex;
+  padding-top: 80px;
+  margin: auto;
+  width: 50%;
+}
+
+.login-form {
+  display: grid;
+  border: solid 1px #f4f4f4;
 }

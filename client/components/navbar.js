@@ -12,7 +12,9 @@ const Navbar = ({handleClick, isLoggedIn, cart}) => (
   <AppBar>
     <Grid container direction="row" justify="space-between" alignItems="center">
       <Link to="/">
-        <Typography variant="h4">Tiger Shopper</Typography>
+        <Button id="title">
+          <Typography variant="h4">Tiger Shopper</Typography>
+        </Button>
       </Link>
       <nav>
         {isLoggedIn ? (
