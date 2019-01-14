@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchCart, getWines} from '../../store'
+import {Link} from 'react-router-dom'
 
 export class Cart extends Component {
   componentDidMount() {
@@ -38,7 +39,9 @@ export class Cart extends Component {
           </tbody>
         </table>
         <h3>Total: {total}</h3>
-        <button type="submit">Checkout</button>
+        <Link to="/checkout">
+          <button type="submit">Checkout</button>
+        </Link>
       </div>
     )
   }
