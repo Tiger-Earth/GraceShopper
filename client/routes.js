@@ -8,7 +8,8 @@ import {
   UserHome,
   WinesList,
   SingleWine,
-  UserMenu
+  UserMenu,
+  OrderHistory
 } from './components'
 import {me} from './store'
 import CheckoutForm from './components/Stripe/CheckoutForm'
@@ -35,6 +36,7 @@ class Routes extends Component {
           <Switch>
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
+            <Route path="/order-history" component={OrderHistory} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

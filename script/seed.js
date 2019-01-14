@@ -13,7 +13,11 @@ const orderData = [
     status: 'open'
   },
   {
-    status: 'closed'
+    status: 'closed',
+    total: 28
+  },
+  {
+    status: 'open'
   }
 ]
 const wineData = [
@@ -85,6 +89,7 @@ async function seed() {
     Order.bulkCreate(orderData, {returning: true})
   ])
   await users[1].addOrder(orders[1])
+  await users[1].addOrder(orders[2])
   await users[0].addOrder(orders[0])
   await orders[0].addWine(1, {
     through: {

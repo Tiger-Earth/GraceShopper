@@ -6,6 +6,8 @@ import PersonIcon from '@material-ui/icons/Person'
 import history from '../../history'
 import {logout} from '../../store'
 import {connect} from 'react-redux'
+import {Route} from 'react-router-dom'
+import OrderHistory from './OrderHistory'
 
 class UserMenu extends Component {
   state = {
@@ -37,14 +39,6 @@ class UserMenu extends Component {
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
         >
-          <MenuItem
-            onClick={() => {
-              history.push('/account')
-              this.handleClose()
-            }}
-          >
-            Account Settings
-          </MenuItem>
           <MenuItem
             onClick={() => {
               history.push('/order-history')
