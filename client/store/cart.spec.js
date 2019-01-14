@@ -19,7 +19,6 @@ describe('cart reducer', () => {
   describe('action creators', () => {
     describe('addToCart', () => {
       it('returns properly formatted action', () => {
-        console.log(addToCart(id, quantity))
         expect(addToCart(id, quantity)).to.be.deep.equal({
           type: 'ADD_TO_CART',
           id,

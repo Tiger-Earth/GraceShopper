@@ -16,7 +16,7 @@ describe('Wine routes', () => {
     const id = 12
     const name = 'Petrus 2001'
     const price = 50
-    const color = 'red'
+    const color = 'White'
 
     beforeEach(() => {
       return Wine.create({

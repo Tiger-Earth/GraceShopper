@@ -6,7 +6,6 @@ import enzyme, {shallow} from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import {WinesList} from './winesList'
 import WinesIcon from './winesIcon'
-// import store from '../../store'
 
 const adapter = new Adapter()
 enzyme.configure({adapter})
