@@ -8,7 +8,9 @@ import CartIcon from './CartIcon'
 
 const Navbar = ({handleClick, isLoggedIn, cart}) => (
   <div>
-    <h1>Tiger Shopper</h1>
+    <Link to="/">
+      <h1>Tiger Shopper</h1>
+    </Link>
     <nav>
       {isLoggedIn ? (
         <div>
@@ -26,7 +28,9 @@ const Navbar = ({handleClick, isLoggedIn, cart}) => (
         </div>
       )}
     </nav>
-    <CartIcon cart={cart} />
+    <Link to="/cart">
+      <CartIcon cart={cart} />
+    </Link>
   </div>
 )
 
