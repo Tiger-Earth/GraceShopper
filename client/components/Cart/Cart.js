@@ -3,17 +3,15 @@ import {connect} from 'react-redux'
 import {fetchCart, fetchWine} from '../../store'
 
 export class Cart extends Component {
-  componentDidMount() {
-    this.props.fetchCart()
-    this.props.fetchWine()
-  }
-  render() {
-    const wines = Promise.All(
+  async componentDidMount() {
+    const wines = await Promise.All(
       Object.keys(this.props.cart).map(wineId => fetchWine(wineId))
     )
+    console.log(wines)
     const quantities = Object.values(this.props.cart)
-    console.log('WINES AND QUANTITY', wines, quantities)
     console.log('PROPS', this.props.cart)
+  }
+  render() {
     return (
       <div>
         <h2>Your Shopping Cart:</h2>
