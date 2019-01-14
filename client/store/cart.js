@@ -13,7 +13,7 @@ import user from './user'
 //   ? JSON.parse(localStorage.getItem('reduxCart'))
 //   : {}
 
-const initialCart = []
+const initialCart = {}
 
 /**
  * ACTION TYPES

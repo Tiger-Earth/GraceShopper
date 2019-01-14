@@ -4,12 +4,14 @@ import {fetchCart, fetchWine} from '../../store'
 
 export class Cart extends Component {
   async componentDidMount() {
-    const wines = await Promise.All(
-      Object.keys(this.props.cart).map(wineId => fetchWine(wineId))
+    const wineKeys = Object.keys(this.props.cart)
+    const wineKeyNums = wineKeys.map(Number)
+    const wines = await Promise.all(
+      wineKeyNums.map(wineId => this.props.fetchWine(wineId))
     )
-    console.log(wines)
+    console.log('WINES', wines)
     const quantities = Object.values(this.props.cart)
-    console.log('PROPS', this.props.cart)
+    console.log('quantities', quantities)
   }
   render() {
     return (
@@ -46,8 +48,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCart: dispatch(fetchCart()),
-  fetchWine: dispatch(fetchWine())
+  fetchCart: () => dispatch(fetchCart()),
+  fetchWine: id => dispatch(fetchWine(id))
 })
 
 const ConnectedCart = connect(mapStateToProps, mapDispatchToProps)(Cart)
