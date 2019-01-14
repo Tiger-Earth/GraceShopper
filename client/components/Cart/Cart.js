@@ -6,7 +6,7 @@ export class Cart extends Component {
   componentDidMount() {
     this.props.getWines()
   }
-
+  //a change
   render() {
     const cartWines = this.props.allWines
     console.log('CART WINES', cartWines)
