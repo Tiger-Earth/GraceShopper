@@ -9,12 +9,17 @@ import {updateDatabaseCart} from '../store'
  */
 
 class UserHome extends Component {
+  // eslint-disable-next-line no-useless-constructor
+  constructor(props) {
+    super(props)
+  }
+
   componentDidMount() {
     this.props.hitDatabase()
   }
 
   render() {
-    const {email} = this.props
+    const email = this.props.email
 
     return (
       <div>
