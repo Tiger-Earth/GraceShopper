@@ -1,10 +1,19 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchCart} from '../../store'
+import {fetchCart, fetchWine} from '../../store'
 
 export class Cart extends Component {
+  componentDidMount() {
+    this.props.fetchCart()
+    this.props.fetchWine()
+  }
   render() {
-    console.log('PROPS', this.props)
+    const wines = Promise.All(
+      Object.keys(this.props.cart).map(wineId => fetchWine(wineId))
+    )
+    const quantities = Object.values(this.props.cart)
+    console.log('WINES AND QUANTITY', wines, quantities)
+    console.log('PROPS', this.props.cart)
     return (
       <div>
         <h2>Your Shopping Cart:</h2>
@@ -12,12 +21,20 @@ export class Cart extends Component {
           <thead>
             <tr>
               <th>Item</th>
+              <th />
               <th>Price</th>
+              <th />
               <th>Quantity</th>
             </tr>
-            <tr>
-              <th />
-            </tr>
+            {/* {this.props.map(item => (
+              <tr key={item.id}>
+                <th>{item.name}</th>
+                <th />
+                <th>{item.price}</th>
+                <th />
+                <th>{item.quantity}</th>
+              </tr>
+            ))} */}
           </thead>
           <tbody />
         </table>
@@ -31,7 +48,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchCart: dispatch(fetchCart())
+  fetchCart: dispatch(fetchCart()),
+  fetchWine: dispatch(fetchWine())
 })
 
 const ConnectedCart = connect(mapStateToProps, mapDispatchToProps)(Cart)
