@@ -6,10 +6,10 @@ import {
   CardExpiryElement,
   CardCVCElement,
   PostalCodeElement,
-  PaymentRequestButtonElement,
   Elements,
   injectStripe
 } from 'react-stripe-elements'
+import Axios from 'axios'
 
 //EVENT HANDLERS to be filled in as desired
 const handleBlur = () => {
@@ -53,117 +53,55 @@ const createOptions = (fontSize, padding) => {
 //_SplitForm and _PaymentRequestForm are "injected" with stripe to
 //become fully functional elements in Checkout component below
 
-class _SplitForm extends Component {
-  handleSubmit = ev => {
-    ev.preventDefault()
-    if (this.props.stripe) {
-      this.props.stripe
-        .createToken()
-        .then(payload => console.log('[token]', payload))
-    } else {
-      console.log("Stripe.js hasn't loaded yet.")
-    }
-  }
-  render() {
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Card number
-          <CardNumberElement
-            onBlur={handleBlur}
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onReady={handleReady}
-            {...createOptions(this.props.fontSize)}
-          />
-        </label>
-        <label>
-          Expiration date
-          <CardExpiryElement
-            onBlur={handleBlur}
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onReady={handleReady}
-            {...createOptions(this.props.fontSize)}
-          />
-        </label>
-        <label>
-          CVC
-          <CardCVCElement
-            onBlur={handleBlur}
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onReady={handleReady}
-            {...createOptions(this.props.fontSize)}
-          />
-        </label>
-        <label>
-          Postal code
-          <PostalCodeElement
-            onBlur={handleBlur}
-            onChange={handleChange}
-            onFocus={handleFocus}
-            onReady={handleReady}
-            {...createOptions(this.props.fontSize)}
-          />
-        </label>
-        <button>Pay</button>
-      </form>
-    )
-  }
+const _SplitForm = props => {
+  const {submit} = props
+  return (
+    <form onSubmit={submit}>
+      <label>
+        Card number
+        <CardNumberElement
+          onBlur={handleBlur}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onReady={handleReady}
+          {...createOptions(props.fontSize)}
+        />
+      </label>
+      <label>
+        Expiration date
+        <CardExpiryElement
+          onBlur={handleBlur}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onReady={handleReady}
+          {...createOptions(props.fontSize)}
+        />
+      </label>
+      <label>
+        CVC
+        <CardCVCElement
+          onBlur={handleBlur}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onReady={handleReady}
+          {...createOptions(props.fontSize)}
+        />
+      </label>
+      <label>
+        Postal code
+        <PostalCodeElement
+          onBlur={handleBlur}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onReady={handleReady}
+          {...createOptions(props.fontSize)}
+        />
+      </label>
+      <button type="submit">Send</button>
+    </form>
+  )
 }
 const SplitForm = injectStripe(_SplitForm)
-
-class _PaymentRequestForm extends React.Component {
-  constructor(props) {
-    super(props)
-
-    const paymentRequest = props.stripe.paymentRequest({
-      country: 'US',
-      currency: 'usd',
-      total: {
-        label: 'Demo total',
-        amount: 1000
-      }
-    })
-
-    paymentRequest.on('token', ({complete, token, ...data}) => {
-      console.log('Received Stripe token: ', token)
-      console.log('Received customer information: ', data)
-      complete('success')
-    })
-
-    paymentRequest.canMakePayment().then(result => {
-      this.setState({canMakePayment: !!result})
-    })
-
-    this.state = {
-      canMakePayment: false,
-      paymentRequest
-    }
-  }
-
-  render() {
-    return this.state.canMakePayment ? (
-      <PaymentRequestButtonElement
-        className="PaymentRequestButton"
-        onBlur={handleBlur}
-        onClick={handleClick}
-        onFocus={handleFocus}
-        onReady={handleReady}
-        paymentRequest={this.state.paymentRequest}
-        style={{
-          paymentRequestButton: {
-            theme: 'dark',
-            height: '64px',
-            type: 'donate'
-          }
-        }}
-      />
-    ) : null
-  }
-}
-const PaymentRequestForm = injectStripe(_PaymentRequestForm)
 
 //---ACTUAL CHECKOUT COMPONENT---
 
@@ -171,9 +109,28 @@ class Checkout extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      differentBillingAddress: false
+      differentBillingAddress: false,
+      complete: false
     }
-    this.handleClick = this.handleClick.bind(this)
+    this.submit = this.submit.bind(this)
+  }
+
+  submit = async function(ev) {
+    console.log('YO SUBMIT')
+    console.log(this.props)
+    ev.preventDefault()
+    try {
+      console.log('IN PROPS STRIPE')
+      const {token} = await this.props.stripe.createToken()
+      const response = await fetch('/charge', {
+        method: 'POST',
+        headers: {'Content-Type': 'text/plain'},
+        body: token.id
+      })
+      if (response.ok) this.setState({complete: true})
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   handleClick() {
@@ -184,7 +141,9 @@ class Checkout extends Component {
 
   render() {
     const {elementFontSize} = this.state
-    return (
+    return this.state.complete ? (
+      <h3>thank you for your order :)</h3>
+    ) : (
       <div className="Checkout">
         <h1>Checkout</h1>
         <CartThumbnail />
@@ -203,10 +162,7 @@ class Checkout extends Component {
           </div>
         )}
         <Elements>
-          <SplitForm fontSize={elementFontSize} />
-        </Elements>
-        <Elements>
-          <PaymentRequestForm />
+          <SplitForm fontSize={elementFontSize} submit={this.submit} />
         </Elements>
       </div>
     )

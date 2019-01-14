@@ -20,7 +20,6 @@ class AddressForm extends React.Component {
     this.setState({
       [evt.target.name]: evt.target.value
     })
-    console.log(this.state)
   }
 
   handleSubmit() {
