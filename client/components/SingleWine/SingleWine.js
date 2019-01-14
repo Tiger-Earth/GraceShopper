@@ -4,24 +4,25 @@ import Typography from '@material-ui/core/Typography'
 
 const SingleWine = props => {
   const wine = props.wine
-  const addToCart = props.addToCart
   const {name, price, color, imageURL} = wine
-  console.log('addToCart', addToCart)
-  console.log('wine', wine)
-  console.log(props)
+  const tens = Math.floor(price / 100)
+  const pennies = price % 100
   return (
-    <div>
-      <Typography color="inherit" variant="h5">
-        {name} - {color}
-      </Typography>
+    <div id="single-wine">
       <img src={imageURL} />
-      <Typography color="inherit" variant="h5">
-        ${price}.00
-      </Typography>
+      <div id="single-wine-text">
+        <Typography variant="h5">
+          {name} - {color}
+        </Typography>
+        <Typography variant="h5">
+          Price: ${tens}.{pennies}
+        </Typography>
 
-      <SingleWineQuantityForm
-        getQuantity={quantity => props.clickHandler(quantity)}
-      />
+        <p />
+        <SingleWineQuantityForm
+          getQuantity={quantity => props.clickHandler(quantity)}
+        />
+      </div>
     </div>
   )
 }

@@ -10,6 +10,11 @@ label {
   display: block;
 }
 
+nav {
+  display: flex;
+  align-content: center;
+}
+
 nav a {
   display: inline-block;
   margin: 1em;
@@ -20,12 +25,86 @@ form div {
   display: inline-block;
 }
 
-.flex-container {
-  display: flex;
-  flex-wrap: wrap;
+#all-wines {
+  padding-top: 80px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.flex-icon {
-  flex-basis: 20%;
-  padding: 20px;
+.wine-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-columns: repeat(minmax(200px, 1fr));
+  grid-gap: 10px;
+}
+
+.wine-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.wine-text > h4 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.wine-text > h5 {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  text-align: right;
+  align-items: flex-end;
+}
+
+#single-wine {
+  padding-top: 90px;
+  position: relative;
+  margin-left: 2vw;
+  display: flex;
+}
+
+#single-wine-text {
+  padding-left: 4vw;
+}
+
+#single-wine > p {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+#single-wine > img {
+  height: 250px;
+  width: 250px;
+}
+
+img {
+  width: 100%;
+}
+
+.notification {
+  background-color: white;
+  color: black;
+  text-decoration: none;
+  padding: 5px 5px;
+  position: relative;
+  display: inline-block;
+  font-size: 20px;
+  border-radius: 2px;
+}
+
+.notification:hover {
+  background: #f5f5f5;
+}
+
+.notification .badge {
+  position: absolute;
+  right: 10%;
+  top: 8%;
+  font-size: 40%;
+  padding: 0.2em;
+  border-radius: 50%;
+  line-height: 1em;
+  color: white;
+  background: #059c9c;
+  text-align: center;
+  min-width: 1em;
 }

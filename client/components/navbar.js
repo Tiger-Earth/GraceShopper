@@ -4,34 +4,43 @@ import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
-import {Typography, AppBar} from '@material-ui/core/'
+import CartIcon from './CartIcon'
+import {Typography, AppBar, Button} from '@material-ui/core/'
 import Grid from '@material-ui/core/Grid'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
-  // <AppBar color="primary">
-  <Grid container direction="row" justify="space-between" alignItems="center">
-    <Typography color="inherit" variant="h4">
-      Tiger Shopper
-    </Typography>
-    <nav>
-      {isLoggedIn ? (
-        <div>
-          {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
-        </div>
-      ) : (
-        <div>
-          {/* The navbar will show these links before you log in */}
-          <Link to="/login">Login</Link>
-          <Link to="/signup">Sign Up</Link>
-        </div>
-      )}
-    </nav>
-  </Grid>
-  // </AppBar>
+const Navbar = ({handleClick, isLoggedIn, cart}) => (
+  <AppBar>
+    <Grid container direction="row" justify="space-between" alignItems="center">
+      <Link to="/">
+        <Typography variant="h4">Tiger Shopper</Typography>
+      </Link>
+      <nav>
+        {isLoggedIn ? (
+          <div>
+            {/* The navbar will show these links after you log in */}
+            <Link to="/home">
+              <Button>Home</Button>
+            </Link>
+            <a href="#" onClick={handleClick}>
+              <Button>Logout</Button>
+            </a>
+          </div>
+        ) : (
+          <div>
+            {/* The navbar will show these links before you log in */}
+            <Link to="/login">
+              <Button>Login</Button>
+            </Link>
+            <Link to="/signup">
+              <Button>Sign Up</Button>
+            </Link>
+          </div>
+        )}
+
+        <CartIcon cart={cart} />
+      </nav>
+    </Grid>
+  </AppBar>
 )
 
 /**
@@ -39,7 +48,8 @@ const Navbar = ({handleClick, isLoggedIn}) => (
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.user.id
+    isLoggedIn: !!state.user.id,
+    cart: state.cart
   }
 }
 

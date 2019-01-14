@@ -30,6 +30,14 @@ export default class SingleWineQuantityForm extends Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
+        <Button
+          type="submit"
+          variant="contained"
+          size="small"
+          color="secondary"
+        >
+          <Typography variant="button">Add to Cart</Typography>
+        </Button>
         <NativeSelect
           variant="outlined"
           onChange={this.handleChange}
@@ -41,16 +49,6 @@ export default class SingleWineQuantityForm extends Component {
             </option>
           ))}
         </NativeSelect>
-        <Button
-          type="submit"
-          variant="contained"
-          size="small"
-          color="secondary"
-        >
-          <Typography color="inherit" variant="button">
-            Add to Cart
-          </Typography>
-        </Button>
       </form>
     )
   }

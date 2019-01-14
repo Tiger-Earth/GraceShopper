@@ -6,11 +6,10 @@ import history from './history'
 import store from './store'
 import App from './app'
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles'
-import {white, grey} from '@material-ui/core/colors'
+import {indigo} from '@material-ui/core/colors/'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 import {Elements, StripeProvider} from 'react-stripe-elements'
-import Grid from '@material-ui/core/Grid'
 
 // establishes socket connection
 
@@ -18,11 +17,18 @@ import './socket'
 
 const theme = createMuiTheme({
   palette: {
-    primary: white,
-    secondary: grey
-  },
-  typography: {
-    useNextVariants: true
+    primary: {
+      light: '#f0ebf7',
+      main: '#ffffff',
+      dark: '#a5a1ac',
+      contrastText: '#a359b0'
+    },
+    secondary: {
+      light: '#ee99fc',
+      main: '#ea80fc',
+      dark: '#a359b0',
+      contrastText: '#a5a1ac'
+    }
   }
 })
 
@@ -33,9 +39,7 @@ ReactDOM.render(
         <Router history={history}>
           <Elements>
             <CssBaseline>
-              <Grid>
-                <App />
-              </Grid>
+              <App />
             </CssBaseline>
           </Elements>
         </Router>
