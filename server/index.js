@@ -75,16 +75,6 @@ const createApp = () => {
   app.use(require('body-parser').text())
 
   app.post('/charge', async (req, res) => {
-    console.log(
-      'AMOUNT',
-      req.body.amount,
-      'tokenId',
-      req.body.tokenId,
-      'user',
-      req.user,
-      'cart',
-      req.body.order
-    )
     try {
       let {status} = await stripe.charges.create({
         amount: req.body.amount,
@@ -95,22 +85,18 @@ const createApp = () => {
 
       console.log('status', status)
       if (status === 'succeeded') {
-        //CLEAR CART TODO
         if (req.user) {
           const order = await req.user.getOrder()
           order.status = 'closed'
           await order.save()
         } else {
           const newOrder = await Order.create({status: 'closed'})
-          console.log(newOrder.toJSON())
           const cartArray = Object.entries(req.body.order)
-          console.log('line 99')
           const res = await Promise.all(
             cartArray.map(([key, val]) =>
               newOrder.addWine(key, {through: {quantity: val}})
             )
           )
-          console.log('RES', res)
         }
       }
       res.json({status})

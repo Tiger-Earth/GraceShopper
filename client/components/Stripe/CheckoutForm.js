@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {CardElement, injectStripe} from 'react-stripe-elements'
 import AddressForm from './AddressForm'
-import {fetchCart} from '../../store/cart'
+import {fetchCart, getCart} from '../../store/cart'
 import {fetchWine} from '../../store/wine'
 import axios from 'axios'
 
@@ -34,7 +34,10 @@ class CheckoutForm extends Component {
     //clearCart
     //close the order with
     console.log('response', response)
-    if (response.status === 200) this.setState({complete: true})
+    if (response.status === 200) {
+      this.setState({complete: true})
+      this.props.clearCart()
+    }
     //createNew
   }
 
@@ -76,7 +79,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     fetchCart: () => dispatch(fetchCart()),
-    fetchWine: id => dispatch(fetchWine(id))
+    fetchWine: id => dispatch(fetchWine(id)),
+    clearCart: () => dispatch(getCart({}))
   }
 }
 
