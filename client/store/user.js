@@ -58,6 +58,22 @@ export const auth = (email, password, method) => async (dispatch, getState) => {
   }
 }
 
+export const updateDatabaseCart = () => async (dispatch, getState) => {
+  try {
+    await Promise.all(
+      Object.keys(getState().cart).map(wineId =>
+        axios.post(`/api/cart/${wineId}`, {
+          quantity: +getState().cart[wineId]
+        })
+      )
+    )
+    // get cart from database and update store's cart
+    dispatch(fetchCart())
+  } catch (dispatchOrHistoryErr) {
+    console.error(dispatchOrHistoryErr)
+  }
+}
+
 export const logout = () => async dispatch => {
   try {
     await axios.post('/auth/logout')
