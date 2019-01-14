@@ -4,7 +4,7 @@ import {fetchCart} from '../../store'
 
 export class Cart extends Component {
   render() {
-    console.log(this.props)
+    console.log('PROPS', this.props)
     return (
       <div>
         <h2>Your Shopping Cart:</h2>
@@ -14,6 +14,9 @@ export class Cart extends Component {
               <th>Item</th>
               <th>Price</th>
               <th>Quantity</th>
+            </tr>
+            <tr>
+              <th />
             </tr>
           </thead>
           <tbody />
