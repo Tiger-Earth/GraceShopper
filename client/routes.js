@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import {Login, Signup, UserHome, WinesList, SingleWine} from './components'
 import {me} from './store'
 import CheckoutForm from './components/Stripe/CheckoutForm'
-import Cart from './components/Cart/Cart'
 
 /**
  * COMPONENT

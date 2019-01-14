@@ -11,7 +11,7 @@ import {
   injectStripe
 } from 'react-stripe-elements'
 
-//to be filled in as desired
+//EVENT HANDLERS to be filled in as desired
 const handleBlur = () => {
   console.log('[blur]')
 }
@@ -48,6 +48,10 @@ const createOptions = (fontSize, padding) => {
     }
   }
 }
+
+//---CONSTITUENT ELEMENTS---
+//_SplitForm and _PaymentRequestForm are "injected" with stripe to
+//become fully functional elements in Checkout component below
 
 class _SplitForm extends Component {
   handleSubmit = ev => {
@@ -161,6 +165,8 @@ class _PaymentRequestForm extends React.Component {
 }
 const PaymentRequestForm = injectStripe(_PaymentRequestForm)
 
+//---ACTUAL CHECKOUT COMPONENT---
+
 class Checkout extends Component {
   constructor(props) {
     super(props)
@@ -193,7 +199,7 @@ class Checkout extends Component {
         {this.state.differentBillingAddress && (
           <div>
             <p>billing address:</p>
-            <AddressForm hideName={true} />
+            <AddressForm billing={true} />
           </div>
         )}
         <Elements>

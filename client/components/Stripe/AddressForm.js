@@ -1,6 +1,5 @@
 import React from 'react'
 
-//will make this a stateful component soon
 class AddressForm extends React.Component {
   constructor(props) {
     super(props)
@@ -12,7 +11,7 @@ class AddressForm extends React.Component {
       city: '',
       state: '',
       zip: '',
-      hideName: this.props.hideName
+      billing: this.props.billing
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -24,11 +23,17 @@ class AddressForm extends React.Component {
     console.log(this.state)
   }
 
+  handleSubmit() {
+    //TODO
+    //where do we want the addresses to go?
+    //(will check whether info is billing or shipping addy here before sending)
+  }
+
   render() {
     const handleChange = this.handleChange
     return (
       <form id="name-address-form">
-        {!this.state.hideName && (
+        {!this.state.billing && (
           <div>
             <label>First name</label>
 
