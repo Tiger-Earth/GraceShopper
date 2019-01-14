@@ -9,11 +9,11 @@ import user from './user'
 
 // retrieve initial state from localStorage or supply empty object if nothing stored in localStorage
 
-//  = localStorage.getItem('reduxCart')
-//   ? JSON.parse(localStorage.getItem('reduxCart'))
-//   : {}
+const initialCart = localStorage.getItem('reduxCart')
+  ? JSON.parse(localStorage.getItem('reduxCart'))
+  : {}
 
-const initialCart = {}
+// const initialCart = {}
 
 /**
  * ACTION TYPES
