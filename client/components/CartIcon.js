@@ -6,10 +6,14 @@ const CartIcon = props => {
   const totalArray = Object.values(cart)
   const total = totalArray.reduce((acc, el) => acc + el)
   return (
-    <div id="cartIcon">
+    // <div className="cart-notification">
+    //   <FiShoppingBag id="shopping-cart" />
+    //   <div className="badge">{total}</div>
+    // </div>
+    <a href="#" className="notification">
       <FiShoppingBag />
-      {total}
-    </div>
+      <span className="badge">{total}</span>
+    </a>
   )
 }
 
