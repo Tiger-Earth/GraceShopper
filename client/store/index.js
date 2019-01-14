@@ -20,5 +20,6 @@ store.subscribe(() => {
 
 export default store
 export * from './user'
+export * from './allWines'
 export * from './wine'
 export * from './cart'
