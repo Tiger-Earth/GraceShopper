@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import {WinesList} from './WineList/WinesList'
+import {WinesList} from './WineList/winesList'
 import {updateDatabaseCart, fetchCart} from '../store'
 
 /**
