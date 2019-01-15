@@ -9,7 +9,7 @@ const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
-const {Order} = require('./db/models')
+const {Order, User} = require('./db/models')
 const socketio = require('socket.io')
 const stripe = require('stripe')('sk_test_u2tSxochrAbn2C9rH7JiIbXz')
 module.exports = app
@@ -86,17 +86,21 @@ const createApp = () => {
       console.log('status', status)
       if (status === 'succeeded') {
         if (req.user) {
-          const order = await req.user.getOrder()
+          const user = await User.findById(req.user.id)
+          const order = await user.getCart()
           order.status = 'closed'
           await order.save()
         } else {
           const newOrder = await Order.create({status: 'closed'})
           const cartArray = Object.entries(req.body.order)
-          const res = await Promise.all(
+          console.log('before', newOrder)
+          await Promise.all(
             cartArray.map(([key, val]) =>
               newOrder.addWine(key, {through: {quantity: val}})
             )
           )
+          await newOrder.save()
+          console.log('after', newOrder)
         }
       }
       res.json({status})
