@@ -1,8 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
-import WinesList from './WineList/winesList'
-import {updateDatabaseCart} from '../store'
+import {updateDatabaseCart, fetchCart} from '../store'
 
 /**
  * COMPONENT
@@ -10,6 +9,7 @@ import {updateDatabaseCart} from '../store'
 
 class UserHome extends Component {
   componentDidMount() {
+    this.props.fetchCart()
     this.props.hitDatabase()
   }
 
@@ -19,7 +19,6 @@ class UserHome extends Component {
     return (
       <div>
         <h3>Welcome, {email}</h3>
-        <WinesList />
       </div>
     )
   }
@@ -38,7 +37,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    hitDatabase: () => dispatch(updateDatabaseCart())
+    hitDatabase: () => dispatch(updateDatabaseCart()),
+    fetchCart: () => dispatch(fetchCart())
   }
 }
 

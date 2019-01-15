@@ -16,7 +16,9 @@ const store = createStore(reducer, middleware)
 
 // store cart in localStorage to retrieve after refresh!
 store.subscribe(() => {
-  localStorage.setItem('reduxCart', JSON.stringify(store.getState().cart))
+  if (Object.keys(store.getState().user).length === 0) {
+    localStorage.setItem('reduxCart', JSON.stringify(store.getState().cart))
+  }
 })
 
 export default store
