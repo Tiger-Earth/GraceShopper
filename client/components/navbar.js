@@ -7,6 +7,7 @@ import {logout} from '../store'
 import UserMenu from './UserMenu/UserMenu'
 import CartIcon from './CartIcon'
 import UserHome from './user-home'
+import InputBase from '@material-ui/core/InputBase'
 
 const Navbar = ({handleClick, isLoggedIn, cart}) => (
   <div>
@@ -28,6 +29,9 @@ const Navbar = ({handleClick, isLoggedIn, cart}) => (
           <Link to="/signup">Sign Up</Link>
         </div>
       )}
+      <div>
+        <InputBase placeholder="Search…" />
+      </div>
       <Link to="/cart">
         <CartIcon cart={cart} />
       </Link>
