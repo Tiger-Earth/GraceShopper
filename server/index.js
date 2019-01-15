@@ -86,17 +86,24 @@ const createApp = () => {
       console.log('status', status)
       if (status === 'succeeded') {
         if (req.user) {
-          const order = await req.user.getOrder()
+          const order = await req.user.getCart()
           order.status = 'closed'
+          order.name = req.body.name
+          order.shippingAddress = req.body.shippingAddress
+          order.total = req.body.amount
           await order.save()
         } else {
           const newOrder = await Order.create({status: 'closed'})
           const cartArray = Object.entries(req.body.order)
-          const res = await Promise.all(
+          await Promise.all(
             cartArray.map(([key, val]) =>
               newOrder.addWine(key, {through: {quantity: val}})
             )
           )
+          newOrder.name = req.body.name
+          newOrder.shippingAddress = req.body.shippingAddress
+          newOrder.total = req.body.amount
+          await newOrder.save()
         }
       }
       res.json({status})

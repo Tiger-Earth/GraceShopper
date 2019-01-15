@@ -1,4 +1,6 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {setInfo} from '../../store/address'
 
 class AddressForm extends React.Component {
   constructor(props) {
@@ -20,12 +22,17 @@ class AddressForm extends React.Component {
     this.setState({
       [evt.target.name]: evt.target.value
     })
+    let {firstName, lastName, address1, address2, city, state, zip} = this.state
+    let name = `${firstName} ${lastName}`
+    let shippingAddress = !this.props.billing
+      ? `${address1} ${address2} ${city} ${state} ${zip}`
+      : ''
+    this.props.setInfo({name, shippingAddress})
   }
 
-  handleSubmit() {
-    //TODO
-    //where do we want the addresses to go?
-    //(will check whether info is billing or shipping addy here before sending)
+  handleSubmit(ev) {
+    ev.preventDefault()
+    console.log('YESSSS')
   }
 
   render() {
@@ -75,4 +82,16 @@ class AddressForm extends React.Component {
   }
 }
 
-export default AddressForm
+const mapState = state => {
+  return {
+    address: state.address
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    setInfo: obj => dispatch(setInfo(obj))
+  }
+}
+
+export default connect(mapState, mapDispatch)(AddressForm)

@@ -17,23 +17,23 @@ class CheckoutForm extends Component {
     const wines = await Promise.all(
       Object.keys(this.props.cart).map(id => this.props.fetchWine(id))
     )
-    const prices = wines.map(
-      (wine, idx) => wine.price * this.props.cart[wine.id]
-    )
+    const prices = wines.map(wine => wine.price * this.props.cart[wine.id])
     const total = prices.reduce((tot, x) => tot + x, 0)
     this.setState({total})
   }
 
   async submit(ev) {
     let {token} = await this.props.stripe.createToken({name: 'Name'})
+    let {address} = this.props
     let response = await axios.post('/charge', {
       tokenId: token.id,
       amount: this.state.total,
-      order: this.props.cart
+      order: this.props.cart,
+      name: address.name,
+      shippingAddress: address.shippingAddress
     })
     //clearCart
     //close the order with
-    console.log('response', response)
     if (response.status === 200) {
       this.setState({complete: true})
       this.props.clearCart()
@@ -72,7 +72,8 @@ class CheckoutForm extends Component {
 
 const mapState = state => {
   return {
-    cart: state.cart
+    cart: state.cart,
+    address: state.address
   }
 }
 
