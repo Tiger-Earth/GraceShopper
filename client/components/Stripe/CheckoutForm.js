@@ -32,11 +32,14 @@ class CheckoutForm extends Component {
       Object.keys(this.props.cart).map(id => this.props.fetchWine(id))
     )
     let {token} = await this.props.stripe.createToken({name: 'Name'})
+    let {address} = this.props
     let response = await axios.post('/charge', {
       wines,
       tokenId: token.id,
       amount: this.state.total,
-      cart: this.props.cart
+      cart: this.props.cart,
+      name: address.name,
+      shippingAddress: address.shippingAddress
     })
     //clearCart
     if (response.status === 200) {
@@ -76,7 +79,8 @@ class CheckoutForm extends Component {
 
 const mapState = state => {
   return {
-    cart: state.cart
+    cart: state.cart,
+    address: state.address
   }
 }
 
