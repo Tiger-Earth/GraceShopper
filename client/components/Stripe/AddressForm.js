@@ -1,8 +1,13 @@
-import React from 'react'
+import React, {Component} from 'react'
+import Grid from '@material-ui/core/Grid'
+import Typography from '@material-ui/core/Typography'
+import TextField from '@material-ui/core/TextField'
+// import FormControlLabel from '@material-ui/core/FormControlLabel'
+// import Checkbox from '@material-ui/core/Checkbox'
 import {connect} from 'react-redux'
 import {setInfo} from '../../store/address'
 
-class AddressForm extends React.Component {
+class AddressForm extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -37,50 +42,119 @@ class AddressForm extends React.Component {
 
   render() {
     const handleChange = this.handleChange
+
     return (
-      <form id="name-address-form">
-        {!this.state.billing && (
-          <div>
-            <label>First name</label>
-
-            <input name="firstName" type="text" onChange={handleChange} />
-
-            <label>Last name</label>
-
-            <input name="lastName" type="text" onChange={handleChange} />
-          </div>
+      <div id="address-form">
+        {this.state.billing ? (
+          <Typography variant="h6" gutterBottom>
+            Billing Address
+          </Typography>
+        ) : (
+          <Typography variant="h6" gutterBottom>
+            Shipping Address
+          </Typography>
         )}
-        <div>
-          <div>
-            <label>Address</label>
-
-            <input name="address1" type="text" onChange={handleChange} />
-          </div>
-          <div>
-            <label>Address 2 (optional)</label>
-
-            <input name="address2" type="text" onChange={handleChange} />
-          </div>
-          <div>
-            <label>City</label>
-
-            <input name="city" type="text" onChange={handleChange} />
-          </div>
-          <div>
-            <label>State</label>
-
-            <input name="state" type="text" onChange={handleChange} />
-          </div>
-          <div>
-            <label>Zip</label>
-
-            <input name="zip" type="text" onChange={handleChange} />
-          </div>
-        </div>
-      </form>
+        <Grid container spacing={8}>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="firstName"
+              name="firstName"
+              label="First name"
+              fullWidth
+              autoComplete="fname"
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="lastName"
+              name="lastName"
+              label="Last name"
+              fullWidth
+              autoComplete="lname"
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="address1"
+              name="address1"
+              label="Address line 1"
+              fullWidth
+              autoComplete="billing address-line1"
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="address2"
+              name="address2"
+              label="Address line 2"
+              fullWidth
+              autoComplete="billing address-line2"
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="city"
+              name="city"
+              label="City"
+              fullWidth
+              autoComplete="billing address-level2"
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id="state"
+              name="state"
+              label="State/Province/Region"
+              fullWidth
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="zip"
+              name="zip"
+              label="Zip / Postal code"
+              fullWidth
+              autoComplete="billing postal-code"
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              required
+              id="country"
+              name="country"
+              label="Country"
+              fullWidth
+              autoComplete="billing country"
+              onChange={handleChange}
+            />
+          </Grid>
+          {/* <Grid item xs={12}>
+            <FormControlLabel
+              control={
+                <Checkbox color="secondary" name="saveAddress" value="yes" />
+              }
+              label="Use this address for payment details"
+            />
+          </Grid> */}
+        </Grid>
+      </div>
     )
   }
 }
+
+// export default AddressForm;
 
 const mapState = state => {
   return {
