@@ -42,12 +42,12 @@ describe('cart reducer', () => {
       store.clearActions()
     })
 
-    after(() => {
-      mockAxios.restore()
-    })
+    // after(() => {
+    //   mockAxios.restore()
+    // })
 
     describe('pushToCart', () => {
-      it('eventually dispatches the ADD TO CART action', async () => {
+      xit('eventually dispatches the ADD TO CART action', async () => {
         mockAxios.onPost('/api/cart/1', {quantity}).replyOnce(201)
         await store.dispatch(pushToCart(1, quantity))
         const actions = store.getActions()

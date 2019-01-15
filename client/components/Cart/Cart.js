@@ -18,11 +18,12 @@ export class Cart extends Component {
 
   handleChange(event) {
     const quantityChange = (id, quant) => {
-      quant === '0'
+      quant === 0
         ? this.props.deleteFromCart(id)
         : this.props.updateCart(id, quant)
     }
-    quantityChange(event.target.id, event.target.value)
+    const numQuant = parseInt(event.target.value)
+    quantityChange(event.target.id, numQuant)
   }
 
   render() {
