@@ -18,6 +18,7 @@ router.get('/', async (req, res, next) => {
       // the bare version is just an object of the form { wineId: quantity }
       res.json(await req.cart.getBareVersion())
     } else {
+      console.log('need to get here')
       // otherwise it includes the cart and eager loads the wines with their quantity
       res.json(await req.cart.getCompleteVersion())
     }
@@ -34,6 +35,7 @@ router.post('/:wineId', async (req, res, next) => {
       wineToUpdate['order-item'].quantity += +req.body.quantity
       await wineToUpdate['order-item'].save()
     } else {
+      console.log('addWine')
       await req.cart.addWine(req.params.wineId, {
         through: {
           quantity: req.body.quantity

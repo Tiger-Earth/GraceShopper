@@ -1,5 +1,5 @@
 import axios from 'axios'
-import user from './user'
+//import user from './user'
 
 // Rhianna and McRae worked on this for 15000 hours with Jan
 
@@ -65,7 +65,8 @@ export const updatedCart = (id, quantity) => {
 /**
  * THUNK CREATORS
  */
-export const pushToCart = (wineId, quantity) => async dispatch => {
+export const pushToCart = (wineId, quantity) => async (dispatch, getState) => {
+  const user = getState().user
   try {
     if (Object.keys(user).length) {
       await axios.post(`/api/cart/${wineId}`, {quantity})
@@ -76,7 +77,8 @@ export const pushToCart = (wineId, quantity) => async dispatch => {
   }
 }
 
-export const updateCart = (wineId, quantity) => async dispatch => {
+export const updateCart = (wineId, quantity) => async (dispatch, getState) => {
+  const user = getState().user
   try {
     if (Object.keys(user).length) {
       await axios.put(`/api/cart/${wineId}`, {quantity})
@@ -87,7 +89,8 @@ export const updateCart = (wineId, quantity) => async dispatch => {
   }
 }
 
-export const fetchCart = () => async dispatch => {
+export const fetchCart = () => async (dispatch, getState) => {
+  const user = getState().user
   try {
     if (Object.keys(user).length) {
       const {data} = await axios.get(`/api/cart`)
@@ -98,9 +101,9 @@ export const fetchCart = () => async dispatch => {
   }
 }
 
-export const deleteFromCart = id => async dispatch => {
+export const deleteFromCart = id => async (dispatch, getState) => {
+  const user = getState().user
   try {
-    console.log('thunk delete')
     if (Object.keys(user).length) {
       await axios.delete(`/api/cart/${id}`)
     }
