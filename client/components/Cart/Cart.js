@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
-import {fetchCart, getWines, updateCart} from '../../store'
+import {fetchCart, getWines, updateCart, deleteFromCart} from '../../store'
 import {Link} from 'react-router-dom'
 
 export class Cart extends Component {
@@ -18,16 +18,11 @@ export class Cart extends Component {
   // }
 
   handleChange(event) {
-    console.log(event.target.value, 'event target id', event.target.id)
-
     const quantityChange = (id, quant) => {
-      if (quant === 0) {
-        deleteFromCart(id)
-      } else {
-        this.props.updateCart(id, quant)
-      }
+      quant === '0'
+        ? this.props.deleteFromCart(id)
+        : this.props.updateCart(id, quant)
     }
-
     quantityChange(event.target.id, event.target.value)
   }
 
@@ -99,7 +94,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   fetchCart: () => dispatch(fetchCart()),
   getWines: () => dispatch(getWines()),
-  updateCart: (id, quant) => dispatch(updateCart(id, quant))
+  updateCart: (id, quant) => dispatch(updateCart(id, quant)),
+  deleteFromCart: id => dispatch(deleteFromCart(id))
 })
 
 const ConnectedCart = connect(mapStateToProps, mapDispatchToProps)(Cart)

@@ -101,7 +101,7 @@ export const fetchCart = () => async dispatch => {
 export const deleteFromCart = id => async dispatch => {
   try {
     if (user) {
-      const res = await axios.delete(`/api/cart${wineId}`)
+      const res = await axios.delete(`/api/cart/${id}`)
       console.log('success:', res)
     }
     dispatch(deletedFromCart(id))

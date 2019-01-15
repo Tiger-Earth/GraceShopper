@@ -59,7 +59,8 @@ router.put('/:wineId', async (req, res, next) => {
 
 router.delete('/:wineId', async (req, res, next) => {
   try {
-    await req.cart.removeWine(req.params.wineId)
+    const wineThatWillDie = await req.cart.getWineById(req.params.wineId)
+    wineThatWillDie.destroy()
     res.sendStatus(204)
   } catch (err) {
     next(err)
