@@ -57,6 +57,7 @@ export const updateDatabaseCart = () => async (dispatch, getState) => {
         })
       )
     )
+    localStorage.removeItem('reduxCart')
     // get cart from database and update store's cart
     dispatch(fetchCart())
   } catch (dispatchOrHistoryErr) {
