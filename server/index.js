@@ -76,13 +76,11 @@ const createApp = () => {
 
   app.post('/charge', async (req, res) => {
     try {
-      console.log('wines', req.body.wines, 'cart', req.body.cart)
-
       const subTotals = req.body.wines.map(
         wine => wine.price * req.body.cart[wine.id]
       )
       const amount = subTotals.reduce((tot, x) => tot + x, 0)
-      console.log('amount is', amount)
+
       let {status} = await stripe.charges.create({
         amount,
         currency: 'usd',
@@ -90,7 +88,6 @@ const createApp = () => {
         source: req.body.tokenId
       })
 
-      console.log('status', status)
       if (status === 'succeeded') {
         if (req.user) {
           const user = await User.findById(req.user.id)
@@ -106,7 +103,6 @@ const createApp = () => {
             )
           )
           await newOrder.save()
-          console.log('after', newOrder)
         }
       }
       res.json({status})

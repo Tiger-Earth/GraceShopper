@@ -11,7 +11,6 @@ router.all('/*', isAuthenticated, async (req, res, next) => {
 
 // get all items in cart
 router.get('/', async (req, res, next) => {
-  console.log('req', req, 'req.cart', req.cart)
   try {
     const complete = req.query.complete
     if (!complete) {
@@ -29,7 +28,6 @@ router.get('/', async (req, res, next) => {
 
 router.post('/:wineId', async (req, res, next) => {
   try {
-    console.log('POOOOST', req)
     const hasWine = await req.cart.hasWine(req.params.wineId)
     if (hasWine) {
       const wineToUpdate = await req.cart.getWineById(req.params.wineId)

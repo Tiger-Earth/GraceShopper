@@ -19,7 +19,6 @@ class CheckoutForm extends Component {
     //this number will NOT be sent directly to route for security purposes
     //(totaling logic will take place within route, so this is repeat)
     //-------^^^^^^^---------
-    console.log(this.props.cart)
     const wines = await Promise.all(
       Object.keys(this.props.cart).map(id => this.props.fetchWine(id))
     )
