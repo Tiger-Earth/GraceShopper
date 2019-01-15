@@ -5,7 +5,6 @@ import TableRow from '@material-ui/core/TableRow'
 const CartRow = props => {
   const {wine, handleChange} = props
 
-  console.log('wine is', wine)
   return (
     <div>
       {wine.quantity && (
@@ -14,7 +13,6 @@ const CartRow = props => {
             {wine.name}
             <img src={wine.imageURL} />
           </TableCell>
-          {/* <TableCell align="right">{wine.quantity}</TableCell> */}
           <td>
             <select
               type="number"

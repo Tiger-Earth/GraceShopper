@@ -29,11 +29,9 @@ export class Cart extends Component {
       return {...wineInfo, quantity: val}
     })
     let prices = cart.map(wine => wine.price * this.props.cart[wine.id])
-    console.log('PRICES', prices)
     const total = !prices.length
       ? 0
       : prices.reduce((tot, x) => (x ? tot + x : tot), 0)
-    console.log('total', total)
     return (
       <div>
         <div id="display-cart">
