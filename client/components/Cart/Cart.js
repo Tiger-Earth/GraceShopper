@@ -20,7 +20,7 @@ export class Cart extends Component {
         ? this.props.deleteFromCart(id)
         : this.props.updateCart(id, quant)
     }
-    quantityChange(event.target.id, event.target.value)
+    quantityChange(event.target.id, parseInt(event.target.value))
   }
 
   render() {
