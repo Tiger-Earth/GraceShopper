@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography'
 
 const styles = () => ({
   root: {
-    margin: '0px 300px 0px 300px'
+    margin: '0px 100px 0px 100px'
   },
   details: {
     display: 'flex',

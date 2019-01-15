@@ -153,3 +153,7 @@ input,
 #user-menu {
   display: flex;
 }
+
+#welcome {
+  align-self: center;
+}

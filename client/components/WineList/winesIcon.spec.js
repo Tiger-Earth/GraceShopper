@@ -17,7 +17,7 @@ describe('winesIcon', () => {
     winesIcon = shallow(<WinesIcon wine={testWine} />)
   })
 
-  it('renders the wine name in an h2', () => {
-    expect(winesIcon.find('h2').text()).to.be.equal('Sauvignon blanc')
+  it('renders the wine name in an h4', () => {
+    expect(winesIcon.find('h4').text()).to.be.equal('Sauvignon blanc')
   })
 })

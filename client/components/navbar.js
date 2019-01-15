@@ -19,8 +19,10 @@ const Navbar = ({isLoggedIn, cart, email}) => (
       <nav>
         {isLoggedIn ? (
           // {/* The navbar will show these links after you log in */}
-
-          <UserMenu />
+          <React.Fragment>
+            <p id="welcome">Welcome, {email}</p>
+            <UserMenu />
+          </React.Fragment>
         ) : (
           <div>
             {/* The navbar will show these links before you log in */}
