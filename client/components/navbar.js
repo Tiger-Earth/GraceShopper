@@ -1,32 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
+import UserMenu from './UserMenu/UserMenu'
+// import UserH ome from './user-home'
 import CartIcon from './CartIcon'
 import {Typography, AppBar, Button} from '@material-ui/core/'
 import Grid from '@material-ui/core/Grid'
 
-const Navbar = ({handleClick, isLoggedIn, cart}) => (
+const Navbar = ({isLoggedIn, cart, email}) => (
   <AppBar>
     <Grid container direction="row" justify="space-between" alignItems="center">
       <Link to="/">
         <Button id="title">
-          <Typography variant="h5">Tiger Shopper</Typography>
+          <Typography variant="h5">Tiger Wines</Typography>
         </Button>
       </Link>
       <nav>
         {isLoggedIn ? (
-          <div>
-            {/* The navbar will show these links after you log in */}
-            <Link to="/home">
-              <Button>Home</Button>
-            </Link>
-            <a href="#" onClick={handleClick}>
-              <Button>Logout</Button>
-            </a>
-          </div>
+          // {/* The navbar will show these links after you log in */}
+
+          <UserMenu />
         ) : (
           <div>
             {/* The navbar will show these links before you log in */}
@@ -52,7 +47,8 @@ const Navbar = ({handleClick, isLoggedIn, cart}) => (
 const mapState = state => {
   return {
     isLoggedIn: !!state.user.id,
-    cart: state.cart
+    cart: state.cart,
+    email: state.user.email
   }
 }
 

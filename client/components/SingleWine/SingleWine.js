@@ -14,7 +14,7 @@ const SingleWine = props => {
         <Typography variant="h5">
           {name} - {color}
         </Typography>
-        <Typography variant="h5">
+        <Typography variant="h6">
           Price: ${tens}.{pennies}
         </Typography>
 

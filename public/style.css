@@ -149,3 +149,7 @@ input,
 .checkout {
   padding-top: 80px;
 }
+
+#user-menu {
+  display: flex;
+}
