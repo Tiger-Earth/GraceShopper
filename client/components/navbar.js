@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import UserMenu from './UserMenu/UserMenu'
 import CartIcon from './CartIcon'
+import UserHome from './user-home'
 
 const Navbar = ({handleClick, isLoggedIn, cart}) => (
   <div>
@@ -18,9 +19,7 @@ const Navbar = ({handleClick, isLoggedIn, cart}) => (
           {/* The navbar will show these links after you log in */}
           <UserMenu />
           <Link to="/home">Home</Link>
-          <a href="#" onClick={handleClick}>
-            Logout
-          </a>
+          <UserHome />
         </div>
       ) : (
         <div>
@@ -29,10 +28,10 @@ const Navbar = ({handleClick, isLoggedIn, cart}) => (
           <Link to="/signup">Sign Up</Link>
         </div>
       )}
+      <Link to="/cart">
+        <CartIcon cart={cart} />
+      </Link>
     </nav>
-    <Link to="/cart">
-      <CartIcon cart={cart} />
-    </Link>
   </div>
 )
 

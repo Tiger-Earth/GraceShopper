@@ -46,7 +46,7 @@ export const auth = (email, password, method) => async (dispatch, getState) => {
   try {
     dispatch(getUser(res.data))
 
-    history.push('/home')
+    history.push('/')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -54,6 +54,7 @@ export const auth = (email, password, method) => async (dispatch, getState) => {
 
 export const updateDatabaseCart = () => async (dispatch, getState) => {
   try {
+    if (!localStorage.getItem('reduxCart')) return
     await Promise.all(
       Object.keys(getState().cart).map(wineId =>
         axios.post(`/api/cart/${wineId}`, {
@@ -61,6 +62,7 @@ export const updateDatabaseCart = () => async (dispatch, getState) => {
         })
       )
     )
+    localStorage.removeItem('reduxCart')
     // get cart from database and update store's cart
     dispatch(fetchCart())
   } catch (dispatchOrHistoryErr) {
