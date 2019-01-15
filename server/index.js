@@ -94,6 +94,9 @@ const createApp = () => {
           const order = await user.getCart()
           order.status = 'closed'
           await order.save()
+          //open up the customer's next cart
+          const nextOrder = await Order.create()
+          user.addOrder(nextOrder)
         } else {
           const newOrder = await Order.create({status: 'closed'})
           const cartArray = Object.entries(req.body.cart)
