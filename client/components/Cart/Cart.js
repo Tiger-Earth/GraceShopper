@@ -42,7 +42,8 @@ export class Cart extends Component {
             <Link to="/checkout">
               <Button
                 size="large"
-                variant="outlined"
+                variant="contained"
+                color="secondary"
                 type="submit"
                 style={{margin: 'auto 100px'}}
               >
