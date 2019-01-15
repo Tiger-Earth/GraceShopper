@@ -54,7 +54,7 @@ class AddressForm extends Component {
             Shipping Address
           </Typography>
         )}
-        <Grid container spacing={24}>
+        <Grid container spacing={8}>
           <Grid item xs={12} sm={6}>
             <TextField
               required

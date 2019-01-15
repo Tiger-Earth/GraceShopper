@@ -20,6 +20,7 @@ class CheckoutForm extends Component {
   }
 
   async componentDidMount() {
+    window.scrollTo(0, 0)
     //--------vvvvv--------
     //TODO: replace below logic (simply for "total" display) with total from cart component
     //this number will NOT be sent directly to route for security purposes
