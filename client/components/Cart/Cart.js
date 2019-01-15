@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchCart, getWines, updateCart, deleteFromCart} from '../../store'
 import {Link} from 'react-router-dom'
+import OrderDetails from '../OrderDetails'
 
 export class Cart extends Component {
   constructor(props) {
@@ -13,10 +14,6 @@ export class Cart extends Component {
     this.props.getWines()
   }
 
-  // componentDidUpdate(prevProps) {
-  //  TODO
-  // }
-
   handleChange(event) {
     const quantityChange = (id, quant) => {
       quant === '0'
@@ -27,8 +24,6 @@ export class Cart extends Component {
   }
 
   render() {
-    console.log(this.props.cart)
-    const cartWines = this.props.allWines
     const cart = Object.entries(this.props.cart).map(([key, val]) => {
       const wineInfo = this.props.allWines.filter(wine => +wine.id === +key)[0]
       return {...wineInfo, quantity: val}
@@ -38,7 +33,7 @@ export class Cart extends Component {
     return (
       <div>
         <h2>Your Shopping Cart:</h2>
-        <table>
+        {/* <table>
           <thead>
             <tr>
               <th>Item</th>
@@ -76,11 +71,18 @@ export class Cart extends Component {
               </tr>
             ))}
           </tbody>
-        </table>
+        </table> */}
         <h3>Total: {total}</h3>
-        <Link to="/checkout">
-          <button type="submit">Checkout</button>
-        </Link>
+        <div id="display-cart">
+          <OrderDetails
+            wines={cart}
+            total={total}
+            handleChange={this.handleChange}
+          />
+          <Link to="/checkout">
+            <button type="submit">Checkout</button>
+          </Link>
+        </div>
       </div>
     )
   }

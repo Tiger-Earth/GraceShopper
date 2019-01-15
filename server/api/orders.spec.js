@@ -26,7 +26,7 @@ describe('Orders routes', () => {
         price: 30.0,
         imageURL:
           'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/cantina-furlani-sur-lie-rosato_1.jpg&w=155&h=184',
-        color: 'red'
+        color: 'Red'
       })
       await order.addWine(wine, {
         through: {

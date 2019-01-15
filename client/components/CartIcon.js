@@ -1,22 +1,35 @@
 import React from 'react'
-import {FiShoppingBag} from 'react-icons/fi'
+import Badge from '@material-ui/core/Badge'
+import {withStyles} from '@material-ui/core/styles'
+import {Button} from '@material-ui/core/'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+
+const styles = theme => ({
+  margin: {
+    margin: theme.spacing.unit * 2
+  },
+  padding: {
+    padding: `0 ${theme.spacing.unit * 2}px`
+  }
+})
 
 const CartIcon = props => {
   let total
   const cart = props.cart || {}
   const totalArray = Object.values(cart)
   if (totalArray.length === 0) {
-    total = undefined
+    total = 0
   } else {
     total = totalArray.reduce((acc, el) => acc + el)
   }
 
   return (
-    <a href="#" className="notification">
-      <FiShoppingBag />
-      {total ? <span className="badge">{total}</span> : ''}
-    </a>
+    <Button>
+      <Badge badgeContent={total} color="secondary">
+        <ShoppingCartIcon />
+      </Badge>
+    </Button>
   )
 }
 
-export default CartIcon
+export default withStyles(styles)(CartIcon)
