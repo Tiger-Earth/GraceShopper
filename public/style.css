@@ -148,6 +148,10 @@ input,
 
 .checkout {
   padding-top: 80px;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-bottom: 2vw;
+  width: 80%;
 }
 
 #user-menu {
@@ -156,4 +160,8 @@ input,
 
 #welcome {
   align-self: center;
+}
+
+#thank-you {
+  padding-top: 80px;
 }
