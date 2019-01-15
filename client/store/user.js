@@ -12,9 +12,7 @@ const GET_ORDERS = 'GET_ORDERS'
 /**
  * INITIAL STATE
  */
-const defaultUser = {
-  orders: []
-}
+const defaultUser = {}
 
 /**
  * ACTION CREATORS
