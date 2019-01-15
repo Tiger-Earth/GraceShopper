@@ -10,7 +10,7 @@ const Wine = db.define('wine', {
     type: Sequelize.INTEGER
   },
   color: {
-    type: Sequelize.ENUM('red', 'white')
+    type: Sequelize.ENUM('Red', 'White', 'Rose')
   },
   imageURL: {
     type: Sequelize.STRING
