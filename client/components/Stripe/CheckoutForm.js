@@ -5,6 +5,8 @@ import AddressForm from './AddressForm'
 import {fetchCart, getCart} from '../../store/cart'
 import {fetchWine} from '../../store/wine'
 import axios from 'axios'
+import {ThankYou} from './ThankYou'
+import NProgress from 'nprogress'
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -28,6 +30,8 @@ class CheckoutForm extends Component {
   }
 
   async submit(ev) {
+    NProgress.start()
+
     const wines = await Promise.all(
       Object.keys(this.props.cart).map(id => this.props.fetchWine(id))
     )
@@ -46,10 +50,12 @@ class CheckoutForm extends Component {
       this.setState({complete: true})
       this.props.clearCart()
     }
+    NProgress.done()
   }
 
   render() {
-    if (this.state.complete) return <h1>Purchase Complete</h1>
+    if (this.state.complete) return <ThankYou />
+
     return (
       <div className="checkout">
         <h1>your total: {this.state.total}</h1>
@@ -70,7 +76,7 @@ class CheckoutForm extends Component {
         <p>Would you like to complete the purchase?</p>
         <CardElement />
         <button type="submit" onClick={this.submit}>
-          Send
+          Confirm Order
         </button>
       </div>
     )

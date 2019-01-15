@@ -157,3 +157,7 @@ input,
 #welcome {
   align-self: center;
 }
+
+#thank-you {
+  padding-top: 80px;
+}
