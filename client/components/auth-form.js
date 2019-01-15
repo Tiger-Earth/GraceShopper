@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import PropTypes from 'prop-types'
 import {auth} from '../store'
-import {Button} from '@material-ui/core/'
+import {CardMedia, Button} from '@material-ui/core'
 
 /**
  * COMPONENT
@@ -26,15 +26,19 @@ const AuthForm = props => {
           <input name="password" type="password" />
         </div>
         <div>
-          <button type="submit">{displayName}</button>
+          <Button variant="outlined" size="small" type="submit">
+            {displayName}
+          </Button>
         </div>
         {error && error.response && <div> {error.response.data} </div>}
       </form>
-      <Button>
-        <a id="google-login" href="/auth/google">
-          {displayName} with Google
-        </a>
+      <Button size="medium">
+        <a href="/auth/google">{displayName} with Google</a>
       </Button>
+      <CardMedia
+        style={{height: 0, paddingTop: '56.25%', borderRadius: 5}}
+        image="https://assets.bonappetit.com/photos/599c58c92ba43a49bc24b9c5/16:9/w_1028,c_limit/natural-wine-primer-bottle-pour-woman.png"
+      />
     </div>
   )
 }
