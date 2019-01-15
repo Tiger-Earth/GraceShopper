@@ -38,8 +38,9 @@ const Navbar = ({handleClick, isLoggedIn, cart}) => (
             </Link>
           </div>
         )}
-
-        <CartIcon cart={cart} />
+        <Link to="/cart">
+          <CartIcon cart={cart} />
+        </Link>
       </nav>
     </Grid>
   </AppBar>

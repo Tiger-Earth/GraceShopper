@@ -9,6 +9,7 @@ const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
+const {Order} = require('./db/models')
 const socketio = require('socket.io')
 const stripe = require('stripe')('sk_test_u2tSxochrAbn2C9rH7JiIbXz')
 module.exports = app
@@ -55,7 +56,7 @@ const createApp = () => {
   // session middleware with passport
   app.use(
     session({
-      secret: process.env.SESSION_SECRET,
+      secret: process.env.SESSION_SECRET || 'random_secret',
       store: sessionStore,
       resave: false,
       saveUninitialized: false
@@ -76,12 +77,28 @@ const createApp = () => {
   app.post('/charge', async (req, res) => {
     try {
       let {status} = await stripe.charges.create({
-        amount: 2000,
+        amount: req.body.amount,
         currency: 'usd',
         description: 'An example charge',
-        source: req.body
+        source: req.body.tokenId
       })
 
+      console.log('status', status)
+      if (status === 'succeeded') {
+        if (req.user) {
+          const order = await req.user.getOrder()
+          order.status = 'closed'
+          await order.save()
+        } else {
+          const newOrder = await Order.create({status: 'closed'})
+          const cartArray = Object.entries(req.body.order)
+          const res = await Promise.all(
+            cartArray.map(([key, val]) =>
+              newOrder.addWine(key, {through: {quantity: val}})
+            )
+          )
+        }
+      }
       res.json({status})
     } catch (err) {
       res.status(500).end()
