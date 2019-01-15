@@ -8,7 +8,8 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import OrderRow from '../OrderRow'
+import OrderRow from './UserMenu/OrderRow'
+import CartRow from './Cart/CartRow'
 
 const styles = () => ({
   root: {
@@ -22,17 +23,22 @@ const styles = () => ({
 
 function SpanningTable(props) {
   const {classes, order} = props
-  console.log('order is', order)
+  console.log('order is', props, order)
+  const wines = props.wines || (order && order.wines)
+  const total = props.total || (order && order.total)
+
   return (
     <Paper className={classes.root}>
-      <Toolbar className={classes.details}>
-        <Typography variant="h6" color="inherit">
-          Order Placed: {new Date(order.updatedAt).toDateString()}
-        </Typography>
-        <Typography variant="subtitle1" color="textSecondary">
-          Order #{order.id}
-        </Typography>
-      </Toolbar>
+      {order && (
+        <Toolbar className={classes.details}>
+          <Typography variant="h6" color="inherit">
+            Order Placed: {new Date(order.updatedAt).toDateString()}
+          </Typography>
+          <Typography variant="subtitle1" color="textSecondary">
+            Order #{order.id}
+          </Typography>
+        </Toolbar>
+      )}
       <Table>
         <TableHead>
           <TableRow>
@@ -42,11 +48,20 @@ function SpanningTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {order.wines.map(wine => <OrderRow wine={wine} key={wine.id} />)}
+          {wines.map(
+            wine =>
+              order ? (
+                <OrderRow wine={wine} key={wine.id} />
+              ) : (
+                <CartRow wine={wine} key={wine.id} />
+              )
+          )}
           <TableRow>
             <TableCell rowSpan={3} />
             <TableCell colSpan={1}>Subtotal</TableCell>
-            <TableCell align="right">{order.total}.00</TableCell>
+            <TableCell align="right">
+              {Math.floor(total / 100)}.{total % 100}
+            </TableCell>
           </TableRow>
           <TableRow>
             <TableCell colSpan={1}>Tax</TableCell>
@@ -54,7 +69,9 @@ function SpanningTable(props) {
           </TableRow>
           <TableRow>
             <TableCell colSpan={1}>Total</TableCell>
-            <TableCell align="right">{order.total}.00</TableCell>
+            <TableCell align="right">
+              {Math.floor(total / 100)}.{total % 100}
+            </TableCell>
           </TableRow>
         </TableBody>
       </Table>

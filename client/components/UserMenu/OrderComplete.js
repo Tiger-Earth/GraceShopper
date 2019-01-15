@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchOrders} from '../../store'
-import OrderDetails from '../OrderDetails'
+import OrderDetails from './OrderDetails'
 
 class OrderHistory extends Component {
   componentDidMount() {
@@ -18,17 +18,3 @@ class OrderHistory extends Component {
     )
   }
 }
-
-OrderHistory.defaultProps = {
-  orders: []
-}
-
-const mapStateToProps = state => ({
-  orders: state.user.orders
-})
-
-const mapDispatchToProps = dispatch => ({
-  fetchOrders: () => dispatch(fetchOrders())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(OrderHistory)
