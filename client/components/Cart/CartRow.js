@@ -9,9 +9,9 @@ const CartRow = props => {
     <div>
       {wine.quantity && (
         <TableRow key={wine.id}>
+          <TableCell>{wine.name}</TableCell>
           <TableCell>
-            {wine.name}
-            <img src={wine.imageURL} />
+            <img src={wine.imageURL} style={{width: 150, border: 1}} />
           </TableCell>
           <td>
             <select
