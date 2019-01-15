@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import {
   Login,
   Signup,
-  UserHome,
   WinesList,
   SingleWine,
   UserMenu,
@@ -37,7 +36,6 @@ class Routes extends Component {
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
-            <Route path="/home" component={UserHome} />
             <Route path="/order-history" component={OrderHistory} />
           </Switch>
         )}
