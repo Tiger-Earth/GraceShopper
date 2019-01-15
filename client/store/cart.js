@@ -67,7 +67,7 @@ export const updatedCart = (id, quantity) => {
  */
 export const pushToCart = (wineId, quantity) => async dispatch => {
   try {
-    if (user) {
+    if (Object.keys(user).length) {
       await axios.post(`/api/cart/${wineId}`, {quantity})
     }
     dispatch(addToCart(wineId, quantity))
@@ -78,7 +78,7 @@ export const pushToCart = (wineId, quantity) => async dispatch => {
 
 export const updateCart = (wineId, quantity) => async dispatch => {
   try {
-    if (user) {
+    if (Object.keys(user).length) {
       await axios.put(`/api/cart/${wineId}`, {quantity})
     }
     dispatch(updatedCart(wineId, quantity))
@@ -89,7 +89,7 @@ export const updateCart = (wineId, quantity) => async dispatch => {
 
 export const fetchCart = () => async dispatch => {
   try {
-    if (user) {
+    if (Object.keys(user).length) {
       const {data} = await axios.get(`/api/cart`)
       dispatch(getCart(data))
     }
@@ -100,7 +100,7 @@ export const fetchCart = () => async dispatch => {
 
 export const deleteFromCart = id => async dispatch => {
   try {
-    if (user) {
+    if (Object.keys(user).length) {
       await axios.delete(`/api/cart/${id}`)
     }
     dispatch(deletedFromCart(id))
@@ -136,7 +136,7 @@ export default function(state = initialCart, action) {
     }
     case DELETE_CART_ITEM: {
       const copy = {...state}
-      copy[action.id] = undefined
+      delete copy[action.id]
       return copy
     }
     default:
