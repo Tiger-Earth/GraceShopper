@@ -2,6 +2,12 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+body,
+html {
+  height: 100%;
+  margin: 0;
+}
+
 a {
   text-decoration: none;
   color: black;
@@ -39,8 +45,8 @@ form div {
 
 .wine-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  grid-template-columns: repeat(minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  /* grid-template-columns: repeat(minmax(200px, 1fr)); */
   grid-gap: 20px;
 }
 
@@ -78,8 +84,8 @@ form div {
 }
 
 #single-wine > img {
-  height: 250px;
-  width: 250px;
+  height: 350px;
+  width: 350px;
 }
 
 img {
@@ -144,6 +150,9 @@ input,
 
 #display-cart {
   padding-top: 80px;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-bottom: 2vw;
 }
 
 .checkout {
@@ -163,5 +172,15 @@ input,
 }
 
 #thank-you {
-  padding-top: 80px;
+  padding-top: 60px;
+  /* The image used */
+  /* background-image: url('https://assets.bonappetit.com/photos/57ae42641b33404414975c3f/16:9/w_2560,c_limit/wildair-new-york-restaurant-bar-main-use-this-.jpg'); */
+}
+
+#thank-you-div {
+  width: 30vw;
+  height: 30vw;
+  border: solid 1px black;
+  margin: auto;
+  padding: auto;
 }
