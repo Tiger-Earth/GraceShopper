@@ -90,13 +90,15 @@ const createApp = () => {
 
       if (status === 'succeeded') {
         if (req.user) {
-          const user = await User.findById(req.user.id)
-          const order = await user.getCart()
+          const order = await req.user.getCart()
           order.status = 'closed'
+          order.name = req.body.name
+          order.shippingAddress = req.body.shippingAddress
+          order.total = req.body.amount
           await order.save()
           //open up the customer's next cart
           const nextOrder = await Order.create()
-          user.addOrder(nextOrder)
+          await user.addOrder(nextOrder)
         } else {
           const newOrder = await Order.create({status: 'closed'})
           const cartArray = Object.entries(req.body.cart)
@@ -105,6 +107,9 @@ const createApp = () => {
               newOrder.addWine(key, {through: {quantity: val}})
             )
           )
+          newOrder.name = req.body.name
+          newOrder.shippingAddress = req.body.shippingAddress
+          newOrder.total = req.body.amount
           await newOrder.save()
         }
       }
