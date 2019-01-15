@@ -5,15 +5,18 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import CartIcon from './CartIcon'
+import UserHome from './user-home'
 
 const Navbar = ({handleClick, isLoggedIn, cart}) => (
   <div>
-    <h1>Tiger Shopper</h1>
+    <Link to="/">
+      <h1>Tiger Shopper</h1>
+    </Link>
     <nav>
       {isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
-          <Link to="/home">Home</Link>
+          <UserHome />
           <a href="#" onClick={handleClick}>
             Logout
           </a>
@@ -25,8 +28,10 @@ const Navbar = ({handleClick, isLoggedIn, cart}) => (
           <Link to="/signup">Sign Up</Link>
         </div>
       )}
+      <Link to="/cart">
+        <CartIcon cart={cart} />
+      </Link>
     </nav>
-    <CartIcon cart={cart} />
   </div>
 )
 

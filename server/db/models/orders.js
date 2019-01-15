@@ -3,6 +3,15 @@ const db = require('../db')
 const Wine = require('./wine')
 
 const Order = db.define('order', {
+  name: {
+    type: Sequelize.STRING
+  },
+  shippingAddress: {
+    type: Sequelize.STRING
+  },
+  billingAddress: {
+    type: Sequelize.STRING
+  },
   total: {
     type: Sequelize.DECIMAL
   },
