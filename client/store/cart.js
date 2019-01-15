@@ -25,7 +25,8 @@ const ADD_TO_CART = 'ADD_TO_CART'
 // TODO add to cart, LOGGING IN!
 
 const GET_CART = 'GET_CART'
-// const DELETE_CART_ITEM = 'DELETE_CART_ITEM'
+const DELETE_CART_ITEM = 'DELETE_CART_ITEM'
+const UPDATE_CART = 'UPDATE_CART'
 // const CLEAR_CART = 'CLEAR_CART'
 
 /**
@@ -46,6 +47,21 @@ export const getCart = cart => {
   }
 }
 
+export const deletedFromCart = id => {
+  return {
+    type: DELETE_CART_ITEM,
+    id
+  }
+}
+
+export const updatedCart = (id, quantity) => {
+  return {
+    type: UPDATE_CART,
+    id,
+    quantity
+  }
+}
+
 /**
  * THUNK CREATORS
  */
@@ -60,12 +76,35 @@ export const pushToCart = (wineId, quantity) => async dispatch => {
   }
 }
 
+export const updateCart = (wineId, quantity) => async dispatch => {
+  try {
+    if (user) {
+      await axios.put(`/api/cart/${wineId}`, {quantity})
+    }
+    dispatch(updatedCart(wineId, quantity))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export const fetchCart = () => async dispatch => {
   try {
     if (user) {
       const {data} = await axios.get(`/api/cart`)
       dispatch(getCart(data))
     }
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export const deleteFromCart = id => async dispatch => {
+  try {
+    if (user) {
+      const res = await axios.delete(`/api/cart${wineId}`)
+      console.log('success:', res)
+    }
+    dispatch(deletedFromCart(id))
   } catch (err) {
     console.error(err)
   }
@@ -89,6 +128,16 @@ export default function(state = initialCart, action) {
       } else {
         copy[id] = quantity
       }
+      return copy
+    }
+    case UPDATE_CART: {
+      const copy = {...state}
+      copy[action.id] = action.quantity
+      return copy
+    }
+    case DELETE_CART_ITEM: {
+      const copy = {...state}
+      copy[action.id] = undefined
       return copy
     }
     default:
