@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 import {logout} from '../store'
 import UserMenu from './UserMenu/UserMenu'
 import CartIcon from './CartIcon'
-import {Typography, AppBar, Button} from '@material-ui/core/'
+import {Typography, AppBar, Button, InputBase} from '@material-ui/core/'
 import Grid from '@material-ui/core/Grid'
 
 const Navbar = ({isLoggedIn, cart, email}) => (

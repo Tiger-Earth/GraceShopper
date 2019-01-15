@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {fetchCart, getWines, updateCart, deleteFromCart} from '../../store'
 import {Link} from 'react-router-dom'
 import OrderDetails from '../OrderDetails'
+import Button from '@material-ui/core/Button'
+import EmptyCart from './EmptyCart'
 
 export class Cart extends Component {
   constructor(props) {
@@ -33,17 +35,24 @@ export class Cart extends Component {
       ? 0
       : prices.reduce((tot, x) => (x ? tot + x : tot), 0)
     return (
-      <div>
-        <div id="display-cart">
-          <OrderDetails
-            wines={cart}
-            total={total}
-            handleChange={this.handleChange}
-          />
-          <Link to="/checkout">
-            <button type="submit">Checkout</button>
-          </Link>
-        </div>
+      <div id="display-cart">
+        {cart.length ? (
+          <div>
+            <OrderDetails wines={cart} total={total} />
+            <Link to="/checkout">
+              <Button
+                size="large"
+                variant="outlined"
+                type="submit"
+                style={{margin: 'auto 100px'}}
+              >
+                Checkout
+              </Button>
+            </Link>
+          </div>
+        ) : (
+          <EmptyCart />
+        )}
       </div>
     )
   }
