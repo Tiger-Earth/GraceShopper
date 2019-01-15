@@ -7,10 +7,8 @@ export class Cart extends Component {
   componentDidMount() {
     this.props.getWines()
   }
-  //a change
   render() {
     const cartWines = this.props.allWines
-    console.log('CART WINES', cartWines)
     const cart = Object.entries(this.props.cart).map(([key, val]) => {
       const wineInfo = this.props.allWines.filter(wine => +wine.id === +key)[0]
       return {...wineInfo, quantity: val}
