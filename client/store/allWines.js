@@ -18,6 +18,7 @@ export const getWines = () => async dispatch => {
   try {
     const {data} = await axios.get('/api/wines')
     dispatch(gotWines(data))
+    return data
   } catch (err) {
     console.error(err)
   }

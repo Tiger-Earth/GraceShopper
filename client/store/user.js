@@ -1,6 +1,5 @@
 import axios from 'axios'
-import {fetchCart} from './index'
-import cart from './cart'
+import {fetchCart, getCart} from './index'
 import history from '../history'
 
 /**
@@ -46,7 +45,15 @@ export const auth = (email, password, method) => async (dispatch, getState) => {
 
   try {
     dispatch(getUser(res.data))
-    // update database with current cart
+
+    history.push('/home')
+  } catch (dispatchOrHistoryErr) {
+    console.error(dispatchOrHistoryErr)
+  }
+}
+
+export const updateDatabaseCart = () => async (dispatch, getState) => {
+  try {
     await Promise.all(
       Object.keys(getState().cart).map(wineId =>
         axios.post(`/api/cart/${wineId}`, {
@@ -56,7 +63,6 @@ export const auth = (email, password, method) => async (dispatch, getState) => {
     )
     // get cart from database and update store's cart
     dispatch(fetchCart())
-    history.push('/home')
   } catch (dispatchOrHistoryErr) {
     console.error(dispatchOrHistoryErr)
   }
@@ -64,9 +70,11 @@ export const auth = (email, password, method) => async (dispatch, getState) => {
 
 export const logout = () => async dispatch => {
   try {
+    localStorage.removeItem('reduxCart')
     await axios.post('/auth/logout')
     dispatch(removeUser())
     history.push('/')
+    dispatch(getCart({}))
   } catch (err) {
     console.error(err)
   }

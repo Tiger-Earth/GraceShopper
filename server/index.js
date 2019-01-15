@@ -9,6 +9,7 @@ const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
+const {Order, User} = require('./db/models')
 const socketio = require('socket.io')
 const stripe = require('stripe')('sk_test_u2tSxochrAbn2C9rH7JiIbXz')
 module.exports = app
@@ -55,7 +56,7 @@ const createApp = () => {
   // session middleware with passport
   app.use(
     session({
-      secret: process.env.SESSION_SECRET,
+      secret: process.env.SESSION_SECRET || 'random_secret',
       store: sessionStore,
       resave: false,
       saveUninitialized: false
@@ -75,13 +76,43 @@ const createApp = () => {
 
   app.post('/charge', async (req, res) => {
     try {
+      const subTotals = req.body.wines.map(
+        wine => wine.price * req.body.cart[wine.id]
+      )
+      const amount = subTotals.reduce((tot, x) => tot + x, 0)
+
       let {status} = await stripe.charges.create({
-        amount: 2000,
+        amount,
         currency: 'usd',
         description: 'An example charge',
-        source: req.body
+        source: req.body.tokenId
       })
 
+      if (status === 'succeeded') {
+        if (req.user) {
+          const order = await req.user.getCart()
+          order.status = 'closed'
+          order.name = req.body.name
+          order.shippingAddress = req.body.shippingAddress
+          order.total = req.body.amount
+          await order.save()
+          //open up the customer's next cart
+          const nextOrder = await Order.create()
+          await user.addOrder(nextOrder)
+        } else {
+          const newOrder = await Order.create({status: 'closed'})
+          const cartArray = Object.entries(req.body.cart)
+          await Promise.all(
+            cartArray.map(([key, val]) =>
+              newOrder.addWine(key, {through: {quantity: val}})
+            )
+          )
+          newOrder.name = req.body.name
+          newOrder.shippingAddress = req.body.shippingAddress
+          newOrder.total = req.body.amount
+          await newOrder.save()
+        }
+      }
       res.json({status})
     } catch (err) {
       res.status(500).end()

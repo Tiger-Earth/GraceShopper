@@ -13,6 +13,7 @@ import {
 } from './components'
 import {me} from './store'
 import CheckoutForm from './components/Stripe/CheckoutForm'
+import Cart from './components/Cart/Cart'
 
 /**
  * COMPONENT
@@ -30,6 +31,7 @@ class Routes extends Component {
         <Route exact path="/" component={WinesList} />
         <Route exact path="/wines/:wineId" component={SingleWine} />
         <Route exact path="/checkout" component={CheckoutForm} />
+        <Route exact path="/cart" component={Cart} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         {isLoggedIn && (
