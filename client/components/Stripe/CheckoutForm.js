@@ -14,6 +14,11 @@ class CheckoutForm extends Component {
   }
 
   async componentDidMount() {
+    //--------vvvvv--------
+    //TODO: replace below logic (simply for "total" display) with total from cart component
+    //this number will NOT be sent directly to route for security purposes
+    //(totaling logic will take place within route, so this is repeat)
+    //-------^^^^^^^---------
     const wines = await Promise.all(
       Object.keys(this.props.cart).map(id => this.props.fetchWine(id))
     )
@@ -23,22 +28,24 @@ class CheckoutForm extends Component {
   }
 
   async submit(ev) {
+    const wines = await Promise.all(
+      Object.keys(this.props.cart).map(id => this.props.fetchWine(id))
+    )
     let {token} = await this.props.stripe.createToken({name: 'Name'})
     let {address} = this.props
     let response = await axios.post('/charge', {
+      wines,
       tokenId: token.id,
       amount: this.state.total,
-      order: this.props.cart,
+      cart: this.props.cart,
       name: address.name,
       shippingAddress: address.shippingAddress
     })
     //clearCart
-    //close the order with
     if (response.status === 200) {
       this.setState({complete: true})
       this.props.clearCart()
     }
-    //createNew
   }
 
   render() {

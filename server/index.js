@@ -9,7 +9,7 @@ const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const app = express()
-const {Order} = require('./db/models')
+const {Order, User} = require('./db/models')
 const socketio = require('socket.io')
 const stripe = require('stripe')('sk_test_u2tSxochrAbn2C9rH7JiIbXz')
 module.exports = app
@@ -76,14 +76,18 @@ const createApp = () => {
 
   app.post('/charge', async (req, res) => {
     try {
+      const subTotals = req.body.wines.map(
+        wine => wine.price * req.body.cart[wine.id]
+      )
+      const amount = subTotals.reduce((tot, x) => tot + x, 0)
+
       let {status} = await stripe.charges.create({
-        amount: req.body.amount,
+        amount,
         currency: 'usd',
         description: 'An example charge',
         source: req.body.tokenId
       })
 
-      console.log('status', status)
       if (status === 'succeeded') {
         if (req.user) {
           const order = await req.user.getCart()
@@ -92,9 +96,12 @@ const createApp = () => {
           order.shippingAddress = req.body.shippingAddress
           order.total = req.body.amount
           await order.save()
+          //open up the customer's next cart
+          const nextOrder = await Order.create()
+          await user.addOrder(nextOrder)
         } else {
           const newOrder = await Order.create({status: 'closed'})
-          const cartArray = Object.entries(req.body.order)
+          const cartArray = Object.entries(req.body.cart)
           await Promise.all(
             cartArray.map(([key, val]) =>
               newOrder.addWine(key, {through: {quantity: val}})
