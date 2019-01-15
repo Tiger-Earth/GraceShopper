@@ -76,8 +76,15 @@ const createApp = () => {
 
   app.post('/charge', async (req, res) => {
     try {
+      console.log('wines', req.body.wines, 'cart', req.body.cart)
+
+      const subTotals = req.body.wines.map(
+        wine => wine.price * req.body.cart[wine.id]
+      )
+      const amount = subTotals.reduce((tot, x) => tot + x, 0)
+      console.log('amount is', amount)
       let {status} = await stripe.charges.create({
-        amount: req.body.amount,
+        amount,
         currency: 'usd',
         description: 'An example charge',
         source: req.body.tokenId
@@ -92,8 +99,7 @@ const createApp = () => {
           await order.save()
         } else {
           const newOrder = await Order.create({status: 'closed'})
-          const cartArray = Object.entries(req.body.order)
-          console.log('before', newOrder)
+          const cartArray = Object.entries(req.body.cart)
           await Promise.all(
             cartArray.map(([key, val]) =>
               newOrder.addWine(key, {through: {quantity: val}})
