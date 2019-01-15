@@ -16,64 +16,122 @@ const orderData = [
     status: 'closed'
   }
 ]
+
 const wineData = [
   {
-    name: 'Alessandro Viola - Sinfonia Di Grillo 2016',
-    price: 38.0,
+    name: '2010 Agrapart Minéral Blanc de Blancs Grand Cru',
+    price: 11995,
     imageURL:
-      'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/alessandro-viola-sinfonia-di-grillo_1.jpg&w=155&h=184',
-    color: 'white'
+      'https://i.pinimg.com/564x/53/49/4a/53494a951f7147e94580f0408c127201.jpg',
+    color: 'White'
+  },
+
+  {
+    name: '2017 Pascal Cotat Chavignol Rosé',
+    price: 4995,
+    imageURL: 'https://s3.amazonaws.com/crush-online-assets/CotatRose2017.jpg',
+    color: 'Rose'
   },
   {
-    name: 'Cantina Furlani - Sur Lie Rosato NV',
-    price: 30.0,
-    imageURL:
-      'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/cantina-furlani-sur-lie-rosato_1.jpg&w=155&h=184',
-    color: 'red'
+    name: 'Ramona Fizz',
+    price: 495,
+    imageURL: 'https://s3.amazonaws.com/crush-item-images/14487.jpg',
+    color: 'Rose'
   },
   {
-    name: 'Cantina Giardino - Vino Bianco 2017 (1.5L)',
-    price: 42.0,
+    name: '2010 Paolo Bea Sagrantino di Montefalco “Pagliaro”',
+    price: 5995,
     imageURL:
-      'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/cantina-giardino-vino-bianco_1.jpg&w=220&h=250',
-    color: 'white'
+      'https://s3.amazonaws.com/crush-online-assets/BeaPagliaro2010.jpg',
+    color: 'Red'
+  },
+
+  {
+    name: 'NV Coutier Brut Rose 750 ml',
+    price: 4495,
+    imageURL: 'https://s3.amazonaws.com/crush-item-images/47227.jpg',
+    color: 'Rose'
   },
   {
-    name: 'Les Vins Pirouettes (Binner) - Pinot Noir Hubert et Christian',
-    price: 25.0,
-    imageURL:
-      'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/les-vins-pirouettes-binner-pinot-noir-d-hubert-et-christian_1.jpg&w=155&h=184',
-    color: 'red'
+    name: '2017 Commanderie de Peyrassol Cotes de Provence Rose 750 ml',
+    price: 1899,
+    imageURL: 'https://s3.amazonaws.com/crush-item-images/15002.jpg',
+    color: 'Rose'
   },
   {
-    name: 'Christian Tschida - Felsen I 2015',
-    price: 84.0,
+    name: '2013 Brovia Barolo',
+    price: 3995,
     imageURL:
-      'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/christian-tschida-felsen-i_1.jpg&w=155&h=184',
-    color: 'red'
+      'https://i.pinimg.com/564x/86/47/69/864769dd95ad5e4ee5a93761d6b70771.jpg',
+    color: 'Red'
   },
+
   {
-    name: 'Christian Tschida - Yummy Yummy 2015',
-    price: 90.0,
-    imageURL:
-      'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/christian-tschida-yummy-yummy_1.jpg&w=155&h=184',
-    color: 'red'
-  },
-  {
-    name: 'Arianna Occhipinti - Il Frappato 2014 (1.5L)',
-    price: 95.0,
-    imageURL:
-      'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/arianna-occhipinti-il-frappato_1.jpg&w=155&h=184',
-    color: 'red'
-  },
-  {
-    name: 'Alessandro Viola - Note Di Bianco 2017',
-    price: 26.0,
-    imageURL:
-      'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/alessandro-viola-note-di-bianco_1.jpg&w=155&h=184',
-    color: 'white'
+    name: '2014 Norton Ridge Merlot 750 ml',
+    price: 1799,
+    imageURL: 'https://s3.amazonaws.com/crush-item-images/28263.jpg',
+    color: 'White'
   }
 ]
+
+// const wineData = [
+//   {
+//     name: 'Alessandro Viola - Sinfonia Di Grillo 2016',
+//     price: 38.0,
+//     imageURL:
+//       'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/alessandro-viola-sinfonia-di-grillo_1.jpg&w=155&h=184',
+//     color: 'white'
+//   },
+//   {
+//     name: 'Cantina Furlani - Sur Lie Rosato NV',
+//     price: 30.0,
+//     imageURL:
+//       'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/cantina-furlani-sur-lie-rosato_1.jpg&w=155&h=184',
+//     color: 'red'
+//   },
+//   {
+//     name: 'Cantina Giardino - Vino Bianco 2017 (1.5L)',
+//     price: 42.0,
+//     imageURL:
+//       'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/cantina-giardino-vino-bianco_1.jpg&w=220&h=250',
+//     color: 'white'
+//   },
+//   {
+//     name: 'Les Vins Pirouettes (Binner) - Pinot Noir Hubert et Christian',
+//     price: 25.0,
+//     imageURL:
+//       'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/les-vins-pirouettes-binner-pinot-noir-d-hubert-et-christian_1.jpg&w=155&h=184',
+//     color: 'red'
+//   },
+//   {
+//     name: 'Christian Tschida - Felsen I 2015',
+//     price: 84.0,
+//     imageURL:
+//       'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/christian-tschida-felsen-i_1.jpg&w=155&h=184',
+//     color: 'red'
+//   },
+//   {
+//     name: 'Christian Tschida - Yummy Yummy 2015',
+//     price: 90.0,
+//     imageURL:
+//       'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/christian-tschida-yummy-yummy_1.jpg&w=155&h=184',
+//     color: 'red'
+//   },
+//   {
+//     name: 'Arianna Occhipinti - Il Frappato 2014 (1.5L)',
+//     price: 95.0,
+//     imageURL:
+//       'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/arianna-occhipinti-il-frappato_1.jpg&w=155&h=184',
+//     color: 'red'
+//   },
+//   {
+//     name: 'Alessandro Viola - Note Di Bianco 2017',
+//     price: 26.0,
+//     imageURL:
+//       'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/alessandro-viola-note-di-bianco_1.jpg&w=155&h=184',
+//     color: 'white'
+//   }
+// ]
 
 async function seed() {
   await db.sync({force: true})

@@ -11,7 +11,7 @@ export class WinesList extends React.Component {
 
   render() {
     return (
-      <div id="all-wines" className="flex-container">
+      <div id="all-wines" className="wine-grid">
         {this.props.wines.map(wine => <WinesIcon wine={wine} key={wine.id} />)}
       </div>
     )

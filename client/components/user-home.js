@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
+import {WinesList} from './WineList/winesList'
 import {updateDatabaseCart, fetchCart} from '../store'
 
 /**
@@ -14,11 +15,11 @@ class UserHome extends Component {
   }
 
   render() {
-    const {email} = this.props
+    // const {email} = this.props
 
     return (
       <div>
-        <h3>Welcome, {email}</h3>
+        <WinesList />
       </div>
     )
   }

@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Button from '@material-ui/core/Button'
 import PersonIcon from '@material-ui/icons/Person'
 import history from '../../history'
-import {logout} from '../../store'
+import {logout, updateDatabaseCart, fetchCart} from '../../store'
 import {connect} from 'react-redux'
 import {Route} from 'react-router-dom'
 import OrderHistory from './OrderHistory'
@@ -12,6 +12,11 @@ import OrderHistory from './OrderHistory'
 class UserMenu extends Component {
   state = {
     anchorEl: null
+  }
+
+  componentDidMount() {
+    this.props.hitDatabase()
+    this.props.fetchCart()
   }
 
   handleClick = event => {
@@ -25,7 +30,7 @@ class UserMenu extends Component {
   render() {
     const {anchorEl} = this.state
     return (
-      <div>
+      <React.Fragment>
         <Button
           aria-owns={anchorEl ? 'simple-menu' : undefined}
           aria-haspopup="true"
@@ -51,14 +56,16 @@ class UserMenu extends Component {
             <i className="fas fa-sign-out-alt" />&#160;&#160;Logout
           </MenuItem>
         </Menu>
-      </div>
+      </React.Fragment>
     )
   }
 }
 
 const mapDispatchToProps = dispatch => {
   return {
-    logout: () => dispatch(logout())
+    logout: () => dispatch(logout()),
+    hitDatabase: () => dispatch(updateDatabaseCart()),
+    fetchCart: () => dispatch(fetchCart())
   }
 }
 

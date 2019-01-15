@@ -20,21 +20,21 @@ describe('Cart routes', () => {
         price: 38.0,
         imageURL:
           'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/alessandro-viola-sinfonia-di-grillo_1.jpg&w=155&h=184',
-        color: 'white'
+        color: 'White'
       },
       {
         name: 'Cantina Furlani - Sur Lie Rosato NV',
         price: 30.0,
         imageURL:
           'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/cantina-furlani-sur-lie-rosato_1.jpg&w=155&h=184',
-        color: 'red'
+        color: 'Red'
       },
       {
         name: 'Cantina Giardino - Vino Bianco 2017 (1.5L)',
         price: 42.0,
         imageURL:
           'https://www.discoverywines.com/thumb/thumbme.html?src=/images/sites/discoverywines/labels/cantina-giardino-vino-bianco_1.jpg&w=220&h=250',
-        color: 'white'
+        color: 'White'
       }
     ]
     beforeEach(async () => {

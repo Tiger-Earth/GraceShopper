@@ -8,10 +8,11 @@ import TableRow from '@material-ui/core/TableRow'
 import Paper from '@material-ui/core/Paper'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
+import OrderRow from '../OrderRow'
 
 const styles = () => ({
   root: {
-    margin: '0px 300px 0px 300px'
+    margin: '0px 100px 0px 100px'
   },
   details: {
     display: 'flex',
@@ -21,6 +22,7 @@ const styles = () => ({
 
 function SpanningTable(props) {
   const {classes, order} = props
+  console.log('order is', order)
   return (
     <Paper className={classes.root}>
       <Toolbar className={classes.details}>
@@ -40,17 +42,7 @@ function SpanningTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {order.wines.map(wine => {
-            return (
-              <TableRow key={wine.id}>
-                <TableCell>{wine.name}</TableCell>
-                <TableCell align="right">
-                  {wine['order-item'].quantity}
-                </TableCell>
-                <TableCell align="right">{wine.price}.00</TableCell>
-              </TableRow>
-            )
-          })}
+          {order.wines.map(wine => <OrderRow wine={wine} key={wine.id} />)}
           <TableRow>
             <TableCell rowSpan={3} />
             <TableCell colSpan={1}>Subtotal</TableCell>
