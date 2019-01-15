@@ -5,8 +5,12 @@ import AddressForm from './AddressForm'
 import {fetchCart, getCart} from '../../store/cart'
 import {fetchWine} from '../../store/wine'
 import axios from 'axios'
-import {ThankYou} from './ThankYou'
 import NProgress from 'nprogress'
+import {Button} from '@material-ui/core'
+import Grid from '@material-ui/core/Grid'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Checkbox from '@material-ui/core/Checkbox'
+import {ThankYou} from './ThankYou'
 
 class CheckoutForm extends Component {
   constructor(props) {
@@ -54,30 +58,53 @@ class CheckoutForm extends Component {
   }
 
   render() {
+    const total = this.state.total
+    const tens = Math.floor(total / 100)
+    const pennies = total % 100
+
     if (this.state.complete) return <ThankYou />
 
     return (
       <div className="checkout">
-        <h1>your total: {this.state.total}</h1>
+        <h1>
+          Your total: ${tens}.{pennies}
+        </h1>
         <AddressForm hideName={false} />
-        <input
+        <Grid item xs={12}>
+          <FormControlLabel
+            control={
+              <Checkbox
+                color="secondary"
+                onClick={() => this.setState({billing: !this.state.billing})}
+              />
+            }
+            label="I have a separate billing address"
+          />
+        </Grid>
+        {/* <input
           type="checkbox"
           name="separateaddress"
           onClick={() => this.setState({billing: !this.state.billing})}
         />{' '}
         <label>I have a separate billing address</label>
-        <br />
+        <br /> */}
         {this.state.billing && (
           <div>
-            <p>billing address:</p>
+            {/* <p>billing address:</p> */}
             <AddressForm billing={true} />
           </div>
         )}
         <p>Would you like to complete the purchase?</p>
         <CardElement />
-        <button type="submit" onClick={this.submit}>
-          Confirm Order
-        </button>
+        <Button
+          type="submit"
+          onClick={this.submit}
+          variant="contained"
+          size="small"
+          color="secondary"
+        >
+          Place Order
+        </Button>
       </div>
     )
   }
