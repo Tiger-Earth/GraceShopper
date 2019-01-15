@@ -100,6 +100,7 @@ export const fetchCart = () => async dispatch => {
 
 export const deleteFromCart = id => async dispatch => {
   try {
+    console.log('thunk delete')
     if (Object.keys(user).length) {
       await axios.delete(`/api/cart/${id}`)
     }

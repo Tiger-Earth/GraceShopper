@@ -16,7 +16,7 @@ export class Cart extends Component {
 
   handleChange(event) {
     const quantityChange = (id, quant) => {
-      quant === '0'
+      quant === 0
         ? this.props.deleteFromCart(id)
         : this.props.updateCart(id, quant)
     }
