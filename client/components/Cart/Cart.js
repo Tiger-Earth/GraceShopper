@@ -29,50 +29,13 @@ export class Cart extends Component {
       return {...wineInfo, quantity: val}
     })
     let prices = cart.map(wine => wine.price * this.props.cart[wine.id])
-    const total = prices.reduce((tot, x) => tot + x, 0)
+    console.log('PRICES', prices)
+    const total = !prices.length
+      ? 0
+      : prices.reduce((tot, x) => (x ? tot + x : tot), 0)
+    console.log('total', total)
     return (
       <div>
-        <h2>Your Shopping Cart:</h2>
-        {/* <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Price</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cart.map(item => (
-              <tr key={item.id}>
-                <td>{item.name}</td>
-                <td>{item.price}</td>
-                <td>
-                  <select
-                    type="number"
-                    id={item.id}
-                    defaultValue={item.quantity}
-                    onChange={this.handleChange}
-                  >
-                    <option value="0">0</option>
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                    <option value="11">11</option>
-                    <option value="12">12</option>
-                  </select>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table> */}
-        <h3>Total: {total}</h3>
         <div id="display-cart">
           <OrderDetails
             wines={cart}

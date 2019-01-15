@@ -24,9 +24,10 @@ const styles = () => ({
 function SpanningTable(props) {
   const {classes, order, handleChange} = props
   console.log('order is', props, order)
+  console.log('total props', props.total)
   const wines = props.wines || (order && order.wines)
-  const total = props.total || (order && order.total)
-
+  const total = props.total !== undefined ? props.total : order && order.total
+  console.log('total in orderdetails', total)
   return (
     <Paper className={classes.root}>
       {order && (
