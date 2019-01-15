@@ -14,6 +14,9 @@ const orderData = [
   },
   {
     status: 'closed'
+  },
+  {
+    status: 'open'
   }
 ]
 
@@ -65,7 +68,6 @@ const wineData = [
       'https://i.pinimg.com/564x/86/47/69/864769dd95ad5e4ee5a93761d6b70771.jpg',
     color: 'Red'
   },
-
   {
     name: '2014 Norton Ridge Merlot 750 ml',
     price: 1799,
@@ -143,6 +145,7 @@ async function seed() {
     Order.bulkCreate(orderData, {returning: true})
   ])
   await users[1].addOrder(orders[1])
+  await users[1].addOrder(orders[2])
   await users[0].addOrder(orders[0])
   await orders[0].addWine(1, {
     through: {
