@@ -7,7 +7,6 @@ export class Cart extends Component {
   componentDidMount() {
     this.props.getWines()
   }
-  //a change
   render() {
     const cartWines = this.props.allWines
     console.log('CART WINES', cartWines)
@@ -18,7 +17,7 @@ export class Cart extends Component {
     let prices = cart.map((wine, idx) => wine.price * this.props.cart[wine.id])
     const total = prices.reduce((tot, x) => tot + x, 0)
     return (
-      <div>
+      <div id="display-cart">
         <h2>Your Shopping Cart:</h2>
         <table>
           <thead>

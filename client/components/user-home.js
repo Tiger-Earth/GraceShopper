@@ -14,11 +14,11 @@ class UserHome extends Component {
   }
 
   render() {
-    const {email} = this.props
+    // const {email} = this.props
 
     return (
       <div>
-        <h3>Welcome, {email}</h3>
+        {/* <h3>Welcome, {email}</h3> */}
         <WinesList />
       </div>
     )

@@ -6,7 +6,6 @@ import history from './history'
 import store from './store'
 import App from './app'
 import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles'
-import {indigo} from '@material-ui/core/colors/'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 import {Elements, StripeProvider} from 'react-stripe-elements'
@@ -14,6 +13,8 @@ import {Elements, StripeProvider} from 'react-stripe-elements'
 // establishes socket connection
 
 import './socket'
+
+// defined customer theme for MUI
 
 const theme = createMuiTheme({
   palette: {
@@ -27,8 +28,11 @@ const theme = createMuiTheme({
       light: '#ee99fc',
       main: '#ea80fc',
       dark: '#a359b0',
-      contrastText: '#a5a1ac'
+      contrastText: '#ffffff'
     }
+  },
+  typography: {
+    useNextVariants: true
   }
 })
 

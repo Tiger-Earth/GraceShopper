@@ -13,7 +13,7 @@ const Navbar = ({handleClick, isLoggedIn, cart}) => (
     <Grid container direction="row" justify="space-between" alignItems="center">
       <Link to="/">
         <Button id="title">
-          <Typography variant="h4">Tiger Shopper</Typography>
+          <Typography variant="h5">Tiger Shopper</Typography>
         </Button>
       </Link>
       <nav>
