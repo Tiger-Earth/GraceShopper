@@ -10,7 +10,6 @@ const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
 const stripeKey = process.env.STRIPE_KEY || 'default_secret'
-console.log(stripeKey)
 const app = express()
 const {Order, User} = require('./db/models')
 const socketio = require('socket.io')
