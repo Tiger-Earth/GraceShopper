@@ -27,7 +27,7 @@ const filterColor = filters => {
     possibleColors.push('Rose')
   }
   return wine =>
-    possibleColors.length ? possibleColors.includes(wine.color) : false
+    possibleColors.length ? possibleColors.includes(wine.color) : true
 }
 
 const filterFuncs = filters => {
@@ -41,16 +41,21 @@ export class WinesList extends React.Component {
   }
 
   render() {
-    const filters = filterFuncs(this.props.filters)
-    const filteredWines = this.props.wines.filter(wine => {
-      return filters.every(filter => filter(wine))
-    })
-    if (filters.sortBy === 'low to high') {
+    let filteredWines
+    if (Object.keys(this.props.filters).length === 0) {
+      filteredWines = this.props.wines
+    } else {
+      const filters = filterFuncs(this.props.filters)
+      filteredWines = this.props.wines.filter(wine => {
+        return filters.every(filter => filter(wine))
+      })
+    }
+
+    if (this.props.filters.sortBy === 'low to high') {
       filteredWines.sort((a, b) => a.price - b.price)
     } else if (this.props.filters.sortBy === 'high to low') {
       filteredWines.sort((a, b) => b.price - a.price)
     }
-
     return (
       <SortFilter id="all-wines">
         <div className="wine-grid">
