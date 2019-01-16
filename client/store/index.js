@@ -6,9 +6,16 @@ import selectedWine from './wine'
 import allWines from './allWines'
 import cart from './cart'
 import address from './address'
-// import createLogger from 'redux-logger'
+import winesVisibilityFilters from './winesVisibilityFilters'
 
-const reducer = combineReducers({user, allWines, selectedWine, cart, address})
+const reducer = combineReducers({
+  user,
+  allWines,
+  selectedWine,
+  cart,
+  address,
+  winesVisibilityFilters
+})
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware))
 const store = createStore(reducer, middleware)
 
@@ -25,3 +32,4 @@ export * from './allWines'
 export * from './wine'
 export * from './cart'
 export * from './address'
+export * from './winesVisibilityFilters'

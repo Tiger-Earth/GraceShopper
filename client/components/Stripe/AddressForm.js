@@ -37,7 +37,6 @@ class AddressForm extends Component {
 
   handleSubmit(ev) {
     ev.preventDefault()
-    console.log('YESSSS')
   }
 
   render() {

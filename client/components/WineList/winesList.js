@@ -2,6 +2,37 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {getWines} from '../../store/allWines'
 import WinesIcon from './winesIcon'
+import SortFilter from '../SortFilter/Grid'
+
+const filterPrice = priceCategory => {
+  if (priceCategory === 'low') {
+    return wine => 0 <= wine.price / 100 && wine.price / 100 < 25
+  } else if (priceCategory === 'mid') {
+    return wine => 25 <= wine.price / 100 && wine.price / 100 < 50
+  } else {
+    if (!priceCategory) return () => true
+    return wine => wine.price / 100 >= 50
+  }
+}
+
+const filterColor = filters => {
+  const possibleColors = []
+  if (filters.checkedRed) {
+    possibleColors.push('Red')
+  }
+  if (filters.checkedWhite) {
+    possibleColors.push('White')
+  }
+  if (filters.checkedRose) {
+    possibleColors.push('Rose')
+  }
+  return wine =>
+    possibleColors.length ? possibleColors.includes(wine.color) : true
+}
+
+const filterFuncs = filters => {
+  return [filterPrice(filters.price), filterColor(filters)]
+}
 
 export class WinesList extends React.Component {
   componentDidMount() {
@@ -10,17 +41,35 @@ export class WinesList extends React.Component {
   }
 
   render() {
+    let filteredWines
+    if (Object.keys(this.props.filters).length === 0) {
+      filteredWines = this.props.wines
+    } else {
+      const filters = filterFuncs(this.props.filters)
+      filteredWines = this.props.wines.filter(wine => {
+        return filters.every(filter => filter(wine))
+      })
+    }
+
+    if (this.props.filters.sortBy === 'low to high') {
+      filteredWines.sort((a, b) => a.price - b.price)
+    } else if (this.props.filters.sortBy === 'high to low') {
+      filteredWines.sort((a, b) => b.price - a.price)
+    }
     return (
-      <div id="all-wines" className="wine-grid">
-        {this.props.wines.map(wine => <WinesIcon wine={wine} key={wine.id} />)}
-      </div>
+      <SortFilter id="all-wines">
+        <div className="wine-grid">
+          {filteredWines.map(wine => <WinesIcon wine={wine} key={wine.id} />)}
+        </div>
+      </SortFilter>
     )
   }
 }
 
 const mapState = state => {
   return {
-    wines: state.allWines
+    wines: state.allWines,
+    filters: state.winesVisibilityFilters
   }
 }
 
