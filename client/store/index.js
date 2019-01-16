@@ -1,5 +1,4 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux'
-import createLogger from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import user from './user'
@@ -7,11 +6,10 @@ import selectedWine from './wine'
 import allWines from './allWines'
 import cart from './cart'
 import address from './address'
+// import createLogger from 'redux-logger'
 
 const reducer = combineReducers({user, allWines, selectedWine, cart, address})
-const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
-)
+const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware))
 const store = createStore(reducer, middleware)
 
 // store cart in localStorage to retrieve after refresh!
