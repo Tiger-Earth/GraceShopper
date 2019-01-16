@@ -22,12 +22,9 @@ const initialCart = localStorage.getItem('reduxCart')
 // add to cart, NOT LOGGED IN
 const ADD_TO_CART = 'ADD_TO_CART'
 
-// TODO add to cart, LOGGING IN!
-
 const GET_CART = 'GET_CART'
 const DELETE_CART_ITEM = 'DELETE_CART_ITEM'
 const UPDATE_CART = 'UPDATE_CART'
-// const CLEAR_CART = 'CLEAR_CART'
 
 /**
  * ACTION CREATORS
