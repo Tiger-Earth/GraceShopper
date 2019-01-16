@@ -184,3 +184,16 @@ input,
   margin: auto;
   padding: auto;
 }
+
+#cart-row {
+  display: flex;
+  align-items: center;
+}
+
+#cart-name {
+  margin-left: 1vw;
+}
+
+#order-details {
+  margin-bottom: 4px;
+}
