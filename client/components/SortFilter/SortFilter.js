@@ -33,8 +33,9 @@ const useStyles = theme => ({
 class FilterAccordionMenu extends Component {
   constructor() {
     super()
+    // here I tried to simulate React.useState
     this.state = {
-      state: {
+      filters: {
         checkedRed: false,
         checkedWhite: false,
         price: null, // low, mid, high
@@ -55,16 +56,16 @@ class FilterAccordionMenu extends Component {
     } else if (name.startsWith('checked')) {
       this.setState({
         ...state,
-        state: {
-          ...state.state,
+        filters: {
+          ...state.filters,
           [name]: event.target.checked
         }
       })
     } else {
       this.setState({
         ...state,
-        state: {
-          ...state.state,
+        filters: {
+          ...state.filters,
           [name]: event.target.value
         }
       })
@@ -75,7 +76,7 @@ class FilterAccordionMenu extends Component {
   render() {
     const {classes} = this.props
     const handleChange = this.handleChange
-    const {state, expanded} = this.state
+    const {filters, expanded} = this.state
     return (
       <div className={classes.root}>
         <Typography variant="h5">Filter + Sort</Typography>
@@ -86,7 +87,7 @@ class FilterAccordionMenu extends Component {
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Sort By</Typography>
             <Typography className={classes.secondaryHeading}>
-              {state.sortBy}
+              {filters.sortBy}
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -94,14 +95,15 @@ class FilterAccordionMenu extends Component {
               aria-label="sortBy"
               name="sortBy"
               className={classes.group}
-              value={state.sortBy}
+              value={filters.sortBy}
               onChange={handleChange('sortBy')}
             >
               {[
-                {value: 'low to high', label: 'Price: Low to High'},
-                {value: 'high to low', label: 'Price: High to Low'}
-              ].map(({value, label}) => (
+                {id: 1, value: 'low to high', label: 'Price: Low to High'},
+                {id: 2, value: 'high to low', label: 'Price: High to Low'}
+              ].map(({id, value, label}) => (
                 <FormControlLabel
+                  key={id}
                   value={value}
                   control={<Radio />}
                   label={label}
@@ -117,22 +119,25 @@ class FilterAccordionMenu extends Component {
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Color</Typography>
             <Typography className={classes.secondaryHeading}>
-              {state.checkedRed && 'red'} {state.checkedWhite && 'white'}
+              {filters.checkedRed && 'red'} {filters.checkedWhite && 'white'}
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <FormGroup>
-              {['Red', 'White'].map(color => (
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={state[`checked${color}`]}
-                      onChange={handleChange(`checked${color}`)}
-                    />
-                  }
-                  label={color}
-                />
-              ))}
+              {[{id: 1, color: 'Red'}, {id: 2, color: 'White'}].map(
+                ({id, color}) => (
+                  <FormControlLabel
+                    key={id}
+                    control={
+                      <Checkbox
+                        checked={filters[`checked${color}`]}
+                        onChange={handleChange(`checked${color}`)}
+                      />
+                    }
+                    label={color}
+                  />
+                )
+              )}
             </FormGroup>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -143,22 +148,23 @@ class FilterAccordionMenu extends Component {
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Price</Typography>
             <Typography className={classes.secondaryHeading}>
-              {state.price}
+              {filters.price}
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <RadioGroup
               aria-label="Price"
               name="price"
-              value={state.price}
+              value={filters.price}
               onChange={handleChange('price')}
             >
               {[
-                {value: 'low', label: 'Less than $25'},
-                {value: 'mid', label: '$25-$50'},
-                {value: 'high', label: 'More than $50'}
-              ].map(({value, label}) => (
+                {id: 1, value: 'low', label: 'Less than $25'},
+                {id: 2, value: 'mid', label: '$25-$50'},
+                {id: 3, value: 'high', label: 'More than $50'}
+              ].map(({id, value, label}) => (
                 <FormControlLabel
+                  key={id}
                   value={value}
                   control={<Radio />}
                   label={label}
