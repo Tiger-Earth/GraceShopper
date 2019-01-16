@@ -50,7 +50,7 @@ export class Cart extends Component {
                 variant="contained"
                 color="secondary"
                 type="submit"
-                style={{margin: 'auto 100px'}}
+                style={{margin: '10px 100px'}}
               >
                 Checkout
               </Button>
