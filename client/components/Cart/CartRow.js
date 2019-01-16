@@ -28,7 +28,7 @@ const CartRow = props => {
             defaultValue={wine.quantity}
             onChange={handleChange}
           >
-            {Array.from({length: 10}, (v, k) => k + 1).map(val => (
+            {Array.from({length: 10}, (v, k) => k).map(val => (
               <option key={val} value={val}>
                 {val}
               </option>
