@@ -11,14 +11,10 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Checkbox from '@material-ui/core/Checkbox'
-import Grid from '@material-ui/core/Grid'
 
 const useStyles = theme => ({
   root: {
     width: '100%'
-  },
-  formControl: {
-    margin: theme.spacing.unit * 3
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -52,10 +48,9 @@ class FilterAccordionMenu extends Component {
   handleChange = name => (event, isExpanded) => {
     const state = this.state
     if (name.startsWith('panel')) {
-      const panel = name
       this.setState({
         ...state,
-        expanded: isExpanded ? panel : false
+        expanded: isExpanded ? name : false
       })
     } else if (name.startsWith('checked')) {
       this.setState({
@@ -83,7 +78,7 @@ class FilterAccordionMenu extends Component {
     const {state, expanded} = this.state
     return (
       <div className={classes.root}>
-        <Typography variant="h3">Filter + Sort</Typography>
+        <Typography variant="h5">Filter + Sort</Typography>
         <ExpansionPanel
           expanded={expanded === 'panel1'}
           onChange={handleChange('panel1')}
@@ -102,16 +97,16 @@ class FilterAccordionMenu extends Component {
               value={state.sortBy}
               onChange={handleChange('sortBy')}
             >
-              <FormControlLabel
-                value="low to high"
-                control={<Radio />}
-                label="Price: Low to High"
-              />
-              <FormControlLabel
-                value="high to low"
-                control={<Radio />}
-                label="Price: High to Low"
-              />
+              {[
+                {value: 'low to high', label: 'Price: Low to High'},
+                {value: 'high to low', label: 'Price: High to Low'}
+              ].map(({value, label}) => (
+                <FormControlLabel
+                  value={value}
+                  control={<Radio />}
+                  label={label}
+                />
+              ))}
             </RadioGroup>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -127,24 +122,17 @@ class FilterAccordionMenu extends Component {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <FormGroup>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.checkedRed}
-                    onChange={handleChange('checkedRed')}
-                  />
-                }
-                label="Red"
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={state.checkedWhite}
-                    onChange={handleChange('checkedWhite')}
-                  />
-                }
-                label="White"
-              />
+              {['Red', 'White'].map(color => (
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state[`checked${color}`]}
+                      onChange={handleChange(`checked${color}`)}
+                    />
+                  }
+                  label={color}
+                />
+              ))}
             </FormGroup>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -162,25 +150,20 @@ class FilterAccordionMenu extends Component {
             <RadioGroup
               aria-label="Price"
               name="price"
-              className={classes.group}
               value={state.price}
               onChange={handleChange('price')}
             >
-              <FormControlLabel
-                value="low"
-                control={<Radio />}
-                label="Less than $25"
-              />
-              <FormControlLabel
-                value="mid"
-                control={<Radio />}
-                label="$25-$50"
-              />
-              <FormControlLabel
-                value="high"
-                control={<Radio />}
-                label="More than $50"
-              />
+              {[
+                {value: 'low', label: 'Less than $25'},
+                {value: 'mid', label: '$25-$50'},
+                {value: 'high', label: 'More than $50'}
+              ].map(({value, label}) => (
+                <FormControlLabel
+                  value={value}
+                  control={<Radio />}
+                  label={label}
+                />
+              ))}
             </RadioGroup>
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -188,40 +171,4 @@ class FilterAccordionMenu extends Component {
     )
   }
 }
-
-const AccordionMenu = withStyles(useStyles)(FilterAccordionMenu)
-
-const styles = theme => ({
-  root: {
-    flexGrow: 1
-  },
-  paper: {
-    padding: theme.spacing.unit * 2,
-    textAlign: 'center',
-    color: theme.palette.text.secondary
-  }
-})
-
-function CenteredGrid(props) {
-  const {classes, id} = props
-  window.__MUI_USE_NEXT_TYPOGRAPHY_VARIANTS__ = true
-
-  return (
-    <div id={id} className={classes.root}>
-      <Grid container spacing={24}>
-        <Grid item xs={2}>
-          <AccordionMenu />
-        </Grid>
-        <Grid item xs={10}>
-          {props.children}
-        </Grid>
-      </Grid>
-    </div>
-  )
-}
-
-CenteredGrid.propTypes = {
-  classes: PropTypes.object.isRequired
-}
-
-export default withStyles(styles)(CenteredGrid)
+export default withStyles(useStyles)(FilterAccordionMenu)
