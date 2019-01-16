@@ -39,7 +39,11 @@ export class Cart extends Component {
       <div id="display-cart">
         {cart.length ? (
           <div>
-            <OrderDetails wines={cart} total={total} />
+            <OrderDetails
+              wines={cart}
+              total={total}
+              handleChange={this.handleChange}
+            />
             <Link to="/checkout">
               <Button
                 size="large"
