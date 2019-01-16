@@ -4,31 +4,34 @@ import {getWines} from '../../store/allWines'
 import WinesIcon from './winesIcon'
 import SortFilter from '../SortFilter/Grid'
 
+const filterPrice = priceCategory => {
+  if (priceCategory === 'low') {
+    return wine => 0 <= wine.price / 100 && wine.price / 100 < 25
+  } else if (priceCategory === 'mid') {
+    return wine => 25 <= wine.price / 100 && wine.price / 100 < 50
+  } else {
+    if (!priceCategory) return () => true
+    return wine => wine.price / 100 >= 50
+  }
+}
+
+const filterColor = filters => {
+  const possibleColors = []
+  if (filters.checkedRed) {
+    possibleColors.push('Red')
+  }
+  if (filters.checkedWhite) {
+    possibleColors.push('White')
+  }
+  if (filters.checkedRose) {
+    possibleColors.push('Rose')
+  }
+  return wine =>
+    possibleColors.length ? possibleColors.includes(wine.color) : false
+}
+
 const filterFuncs = filters => {
-  const defaultFilter = () => true
-  return Object.keys(filters).map(filter => {
-    switch (filter) {
-      case 'checkedRed':
-        if (filters.checkedRed) return wine => wine.color === 'Red'
-        return defaultFilter
-      case 'checkedWhite':
-        if (filters.checkedWhite) return wine => wine.color === 'White'
-        return defaultFilter
-      case 'price': {
-        const price_category = filters[filter]
-        if (price_category === 'low') {
-          return wine => 0 <= wine.price / 100 && wine.price / 100 < 25
-        } else if (price_category === 'mid') {
-          return wine => 25 <= wine.price / 100 && wine.price / 100 < 50
-        } else {
-          if (!price_category) return defaultFilter
-          return wine => wine.price / 100 >= 50
-        }
-      }
-      default:
-        return defaultFilter
-    }
-  })
+  return [filterPrice(filters.price), filterColor(filters)]
 }
 
 export class WinesList extends React.Component {
@@ -43,7 +46,6 @@ export class WinesList extends React.Component {
       return filters.every(filter => filter(wine))
     })
     if (filters.sortBy === 'low to high') {
-      // ascending
       filteredWines.sort((a, b) => a.price - b.price)
     } else if (this.props.filters.sortBy === 'high to low') {
       filteredWines.sort((a, b) => b.price - a.price)
@@ -62,7 +64,7 @@ export class WinesList extends React.Component {
 const mapState = state => {
   return {
     wines: state.allWines,
-    filters: state.winesVisibilityFilter
+    filters: state.winesVisibilityFilters
   }
 }
 

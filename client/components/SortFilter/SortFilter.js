@@ -39,6 +39,7 @@ class FilterAccordionMenu extends Component {
       filters: {
         checkedRed: false,
         checkedWhite: false,
+        checkedRose: false,
         price: null, // low, mid, high
         sortBy: null // lowToHigh, highToLow
       },
@@ -123,25 +124,28 @@ class FilterAccordionMenu extends Component {
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Color</Typography>
             <Typography className={classes.secondaryHeading}>
-              {filters.checkedRed && 'red'} {filters.checkedWhite && 'white'}
+              {filters.checkedRed && 'red'} {filters.checkedWhite && 'white'}{' '}
+              {filters.checkedRose && 'rose'}
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <FormGroup>
-              {[{id: 1, color: 'Red'}, {id: 2, color: 'White'}].map(
-                ({id, color}) => (
-                  <FormControlLabel
-                    key={id}
-                    control={
-                      <Checkbox
-                        checked={filters[`checked${color}`]}
-                        onChange={handleChange(`checked${color}`)}
-                      />
-                    }
-                    label={color}
-                  />
-                )
-              )}
+              {[
+                {id: 1, color: 'Red'},
+                {id: 2, color: 'White'},
+                {id: 3, color: 'Rose'}
+              ].map(({id, color}) => (
+                <FormControlLabel
+                  key={id}
+                  control={
+                    <Checkbox
+                      checked={filters[`checked${color}`]}
+                      onChange={handleChange(`checked${color}`)}
+                    />
+                  }
+                  label={color}
+                />
+              ))}
             </FormGroup>
           </ExpansionPanelDetails>
         </ExpansionPanel>
