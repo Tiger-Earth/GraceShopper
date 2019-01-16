@@ -1,3 +1,4 @@
+require('../secrets')
 const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
@@ -8,10 +9,12 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store)
 const db = require('./db')
 const sessionStore = new SequelizeStore({db})
 const PORT = process.env.PORT || 8080
+const stripeKey = process.env.STRIPE_KEY || 'default_secret'
+console.log(stripeKey)
 const app = express()
 const {Order, User} = require('./db/models')
 const socketio = require('socket.io')
-const stripe = require('stripe')('sk_test_u2tSxochrAbn2C9rH7JiIbXz')
+const stripe = require('stripe')(stripeKey)
 module.exports = app
 
 // This is a global Mocha hook, used for resource cleanup.
