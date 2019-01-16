@@ -7,8 +7,16 @@ import selectedWine from './wine'
 import allWines from './allWines'
 import cart from './cart'
 import address from './address'
+import winesVisibilityFilter from './allWinesVisibilityFilter'
 
-const reducer = combineReducers({user, allWines, selectedWine, cart, address})
+const reducer = combineReducers({
+  user,
+  allWines,
+  selectedWine,
+  cart,
+  address,
+  winesVisibilityFilter
+})
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))
 )
@@ -27,3 +35,4 @@ export * from './allWines'
 export * from './wine'
 export * from './cart'
 export * from './address'
+export * from './allWinesVisibilityFilter'

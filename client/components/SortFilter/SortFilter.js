@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import PropTypes from 'prop-types'
 import {withStyles} from '@material-ui/core/styles'
 import ExpansionPanel from '@material-ui/core/ExpansionPanel'
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails'
@@ -11,6 +10,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Typography from '@material-ui/core/Typography'
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 import Checkbox from '@material-ui/core/Checkbox'
+
+import store, {setFilters} from '../../store'
 
 const useStyles = theme => ({
   root: {
@@ -43,7 +44,6 @@ class FilterAccordionMenu extends Component {
       },
       expanded: 'panel1'
     }
-    this.handleChange = this.handleChange.bind(this)
   }
 
   handleChange = name => (event, isExpanded) => {
@@ -54,21 +54,25 @@ class FilterAccordionMenu extends Component {
         expanded: isExpanded ? name : false
       })
     } else if (name.startsWith('checked')) {
-      this.setState({
+      const newState = {
         ...state,
         filters: {
           ...state.filters,
           [name]: event.target.checked
         }
-      })
+      }
+      store.dispatch(setFilters(newState.filters))
+      this.setState(newState)
     } else {
-      this.setState({
+      const newState = {
         ...state,
         filters: {
           ...state.filters,
           [name]: event.target.value
         }
-      })
+      }
+      store.dispatch(setFilters(newState.filters))
+      this.setState(newState)
     }
   }
 
@@ -177,4 +181,5 @@ class FilterAccordionMenu extends Component {
     )
   }
 }
+
 export default withStyles(useStyles)(FilterAccordionMenu)

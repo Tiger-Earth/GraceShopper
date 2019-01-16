@@ -4,30 +4,55 @@ import {getWines} from '../../store/allWines'
 import WinesIcon from './winesIcon'
 import SortFilter from '../SortFilter/Grid'
 
+const filterFuncs = filters => {
+  const defaultFilter = () => true
+  return Object.keys(filters).map(filter => {
+    switch (filter) {
+      case 'checkedRed':
+        if (filters.checkedRed) return wine => wine.color === 'Red'
+        return defaultFilter
+      case 'checkedWhite':
+        if (filters.checkedWhite) return wine => wine.color === 'White'
+        return defaultFilter
+      case 'price': {
+        const price_category = filters[filter]
+        if (price_category === 'low') {
+          return wine => 0 <= wine.price / 100 && wine.price / 100 < 25
+        } else if (price_category === 'mid') {
+          return wine => 25 <= wine.price / 100 && wine.price / 100 < 50
+        } else {
+          if (!price_category) return defaultFilter
+          return wine => wine.price / 100 >= 50
+        }
+      }
+      default:
+        return defaultFilter
+    }
+  })
+}
+
 export class WinesList extends React.Component {
-  constructor() {
-    super()
-    this.filterWines = this.filterWines.bind(this)
-  }
   componentDidMount() {
     //the conditional is here to make it possible for the first test spec to run.
     if (this.props.getWines) return this.props.getWines()
   }
 
-  filterWines(filters) {
-    const wines = this.props.wines
-    this.props.wines = wines.filter(wine => {
+  render() {
+    const filters = filterFuncs(this.props.filters)
+    const filteredWines = this.props.wines.filter(wine => {
       return filters.every(filter => filter(wine))
     })
-  }
+    if (filters.sortBy === 'low to high') {
+      // ascending
+      filteredWines.sort((a, b) => a.price - b.price)
+    } else if (this.props.filters.sortBy === 'high to low') {
+      filteredWines.sort((a, b) => b.price - a.price)
+    }
 
-  render() {
     return (
-      <SortFilter id="all-wines" filterWines={this.filterWines}>
+      <SortFilter id="all-wines">
         <div className="wine-grid">
-          {this.props.wines.map(wine => (
-            <WinesIcon wine={wine} key={wine.id} />
-          ))}
+          {filteredWines.map(wine => <WinesIcon wine={wine} key={wine.id} />)}
         </div>
       </SortFilter>
     )
@@ -36,7 +61,8 @@ export class WinesList extends React.Component {
 
 const mapState = state => {
   return {
-    wines: state.allWines
+    wines: state.allWines,
+    filters: state.winesVisibilityFilter
   }
 }
 
